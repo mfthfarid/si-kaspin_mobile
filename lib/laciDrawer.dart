@@ -3,6 +3,7 @@ import 'package:kaspin/menu/penjualan.dart';
 import 'package:kaspin/menu/profile.dart';
 import 'package:kaspin/menu/retur.dart';
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:kaspin/login/login.dart';
 
 class MyDrawer extends StatefulWidget {
   const MyDrawer({Key? key}) : super(key: key);
@@ -11,7 +12,7 @@ class MyDrawer extends StatefulWidget {
   _MyDrawer createState() => _MyDrawer();
 }
 
-class _MyDrawer extends State {
+class _MyDrawer extends State<MyDrawer> {
   int selectedIndex = 0;
 
   void _onItemTapped(int index) {
@@ -29,90 +30,99 @@ class _MyDrawer extends State {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              alignment: Alignment.bottomLeft,
               padding: EdgeInsets.all(20),
-              width: double.infinity,
-              height: 150,
               color: Color.fromARGB(255, 36, 34, 32),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+              child: Row(
                 children: [
-                  // Image.asset("data/LogoApp.png"),
-                  // IconButton(
-                  //   icon: Icon(Icons.menu),
-                  //   color: Colors.white,
-                  //   onPressed: () {
-                  //     Navigator.pop(context);
-                  //   },
-                  // ),
-                  // SizedBox(height: 30),
-                  Row(
+                  IconButton(
+                    icon: Icon(
+                      Icons.menu,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  SizedBox(height: 8),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          IconButton(
-                            icon: Icon(
-                              Icons.menu,
-                              // size: 9,
-                            ),
-                            color: Colors.white,
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                          SizedBox(width: 8),
-                          Text(
-                            "Bintang Malindo",
-                            style: TextStyle(
-                                fontFamily: "Poppins", color: Colors.white),
-                          ),
-                          Text(
-                            "Kasir",
-                            style: TextStyle(
-                                fontFamily: "Poppins",
-                                color: Color.fromARGB(158, 255, 255, 255)),
-                          ),
-                        ],
-                      )
+                      Text(
+                        "Bintang Malindo",
+                        style: TextStyle(
+                          fontFamily: "Poppins",
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        "Kasir",
+                        style: TextStyle(
+                          fontFamily: "Poppins",
+                          color: Color.fromARGB(158, 255, 255, 255),
+                        ),
+                      ),
                     ],
                   ),
                 ],
               ),
             ),
+            SizedBox(height: 20), // Spasi antara header dan menu
+            ListTile(
+              onTap: () {
+                _onItemTapped(1);
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Penjualan()),
+                );
+              },
+              selected: selectedIndex == 1,
+              leading: Icon(
+                Icons.money_rounded,
+                color: Colors.white,
+              ),
+              title: Text("Penjualan"),
+              textColor: Color.fromARGB(255, 56, 157, 66),
+            ),
+            ListTile(
+              onTap: () {
+                _onItemTapped(2);
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Retur()),
+                );
+              },
+              selected: selectedIndex == 2,
+              leading: Icon(
+                Icons.restore_page_outlined,
+                color: Colors.white,
+              ),
+              title: Text("Retur"),
+              textColor: Color.fromARGB(255, 56, 157, 66),
+            ),
             Expanded(
-              child: ListView(
-                padding: EdgeInsets.zero,
-                children: [
-                  ListTile(
-                    onTap: () {
-                      _onItemTapped(1);
-                      Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Penjualan()),
-                      );
-                    },
-                    selected: selectedIndex == 1,
-                    leading: Icon(Icons.money_rounded),
-                    title: Text("Penjualan"),
-                    textColor: Color.fromARGB(255, 56, 157, 66),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: ListTile(
+                  onTap: () {
+                    _onItemTapped(3);
+                    logout(context);
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => ),
+                    // );
+                  },
+                  selected: selectedIndex == 2,
+                  // titleAlignment: Alignment.bottomCenter,
+                  leading: Icon(
+                    Icons.logout_outlined,
+                    color: Colors.white,
                   ),
-                  ListTile(
-                    onTap: () {
-                      _onItemTapped(2);
-                      Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Retur()),
-                      );
-                    },
-                    selected: selectedIndex == 2,
-                    leading: Icon(Icons.restore_page_outlined),
-                    title: Text("Retur"),
-                    textColor: Color.fromARGB(255, 56, 157, 66),
-                  ),
-                ],
+                  title: Text("Log Out"),
+                  textColor: Color.fromARGB(255, 56, 157, 66),
+                ),
               ),
             ),
           ],
@@ -120,4 +130,9 @@ class _MyDrawer extends State {
       ),
     );
   }
+}
+
+void logout(BuildContext context) {
+  Navigator.pushReplacement(
+      context, MaterialPageRoute(builder: (context) => LoginPage()));
 }
