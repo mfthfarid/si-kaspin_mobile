@@ -23,33 +23,161 @@ class Penjualan extends StatelessWidget {
         ],
       ),
       drawer: MyDrawer(),
-      body: ListView.builder(
-        padding: EdgeInsets.all(20),
-        itemCount: 50,
-        itemBuilder: (context, index) => Padding(
-          padding: const EdgeInsets.only(bottom: 25),
-          child: Container(
-            padding: EdgeInsets.all(20),
-            alignment: Alignment.bottomLeft,
-            height: 200,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Colors.grey[300],
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(
-                  "https://picsum.photos/id/${778 + index}/200/300",
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                decoration: InputDecoration(
+                  labelText: 'Cari...',
+                  prefixIcon: Icon(Icons.search),
+                  border: OutlineInputBorder(),
                 ),
+                onChanged: (value) {
+                  // filterSearchResu
+                },
               ),
             ),
-            child: Text(
-              "Hellow ${index + 1}",
-              style: TextStyle(
-                fontSize: 25,
-                color: Colors.white,
+            Expanded(
+              child: ListView(
+                children: [
+                  SizedBox(height: 10),
+                  ListTile(
+                    leading: Image.asset('data/batako-kotak-biasa.jpg'),
+                    title: Text("Batako Kotak Biasa"),
+                    subtitle: Text("Harga"),
+                    onTap: () {
+                      //
+                    },
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  ListTile(
+                    leading: Image.asset('data/profile.png'),
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Batako Bulat", style: TextStyle(fontSize: 16)),
+                        Text("Jenis", style: TextStyle(fontSize: 10))
+                        // jenis barang
+                        ,
+                        SizedBox(width: 5),
+                        Text("Stock", style: TextStyle(fontSize: 10))
+                        // Stock
+                        ,
+                        Text("Harga", style: TextStyle(fontSize: 14)),
+                      ],
+                    ),
+                    onTap: () {
+                      //
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.asset('data/tang.jpg'),
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Tang", style: TextStyle(fontSize: 16)),
+                        Text("Jenis", style: TextStyle(fontSize: 10))
+                        // jenis barang
+                        ,
+                        SizedBox(width: 5),
+                        Text("Stock", style: TextStyle(fontSize: 10))
+                        // Stock
+                        ,
+                        Text("Harga", style: TextStyle(fontSize: 14)),
+                      ],
+                    ),
+                    onTap: () {
+                      //
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.asset('data/obeng.jpg'),
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Obeng", style: TextStyle(fontSize: 16)),
+                        Text("Jenis", style: TextStyle(fontSize: 10))
+                        // jenis barang
+                        ,
+                        SizedBox(width: 5),
+                        Text("Stock", style: TextStyle(fontSize: 10))
+                        // Stock
+                        ,
+                        Text("Harga", style: TextStyle(fontSize: 14)),
+                      ],
+                    ),
+                    onTap: () {
+                      //
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.asset('data/tank-harimau.jpg'),
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Tank Beneran", style: TextStyle(fontSize: 16)),
+                        Text("Jenis", style: TextStyle(fontSize: 10))
+                        // jenis barang
+                        ,
+                        SizedBox(width: 5),
+                        Text("Stock", style: TextStyle(fontSize: 10))
+                        // Stock
+                        ,
+                        Text("Harga", style: TextStyle(fontSize: 14)),
+                      ],
+                    ),
+                    onTap: () {
+                      //
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.asset('data/LogoApp.png'),
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Batako Bulat", style: TextStyle(fontSize: 16)),
+                        Text("Jenis", style: TextStyle(fontSize: 10))
+                        // jenis barang
+                        ,
+                        SizedBox(width: 5),
+                        Text("Stock", style: TextStyle(fontSize: 10))
+                        // Stock
+                        ,
+                        Text("Harga", style: TextStyle(fontSize: 14)),
+                      ],
+                    ),
+                    onTap: () {
+                      //
+                    },
+                  ),
+                  ListTile(
+                    leading: Image.asset('data/LogoApp.png'),
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Batako Bulat", style: TextStyle(fontSize: 16)),
+                        Text("Jenis", style: TextStyle(fontSize: 10))
+                        // jenis barang
+                        ,
+                        SizedBox(width: 5),
+                        Text("Stock", style: TextStyle(fontSize: 10))
+                        // Stock
+                        ,
+                        Text("Harga", style: TextStyle(fontSize: 14)),
+                      ],
+                    ),
+                    onTap: () {
+                      //
+                    },
+                  ),
+                ],
               ),
             ),
-          ),
+          ],
         ),
       ),
     );
