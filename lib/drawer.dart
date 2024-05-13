@@ -32,37 +32,48 @@ class _MyDrawer extends State<MyDrawer> {
             Container(
               padding: EdgeInsets.all(20),
               color: Color.fromARGB(255, 36, 34, 32),
-              child: Row(
+              child: Column(
                 children: [
-                  IconButton(
-                    icon: Icon(
-                      Icons.menu,
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: IconButton(
+                      icon: Icon(
+                        Icons.menu,
+                      ),
                       color: Colors.white,
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                     ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
                   ),
-                  SizedBox(height: 8),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Bintang Malindo",
-                        style: TextStyle(
-                          fontFamily: "Poppins",
-                          color: Colors.white,
+                  SizedBox(height: 30),
+                  Container(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Image.asset('data/profile.png'),
+                        SizedBox(width: 12),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Bintang Malindo",
+                              style: TextStyle(
+                                  fontFamily: "Poppins",
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white),
+                            ),
+                            Text(
+                              "Operator",
+                              style: TextStyle(
+                                  fontFamily: "Poppins",
+                                  fontSize: 11,
+                                  color: Color(0xFFB8B8B8)),
+                            ),
+                          ],
                         ),
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        "Kasir",
-                        style: TextStyle(
-                          fontFamily: "Poppins",
-                          color: Color.fromARGB(158, 255, 255, 255),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),

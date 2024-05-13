@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kaspin/laciDrawer.dart';
+import 'package:kaspin/drawer.dart';
+import 'package:kaspin/launch/launcher.dart';
 import './menu/profile.dart';
 import './menu/penjualan.dart';
 import './menu/retur.dart';
@@ -39,49 +40,7 @@ class _MyHomePageState extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          // title: Text("KasPin"),
-          // leading: IconButton(
-          //   icon: Image.asset("data/LogoApp.png"),
-          //   onPressed: () {
-          //     Scaffold.of(context).openDrawer();
-          //   },
-          // ),
-          ),
-      drawer: MyDrawer(),
-      body: Center(
-        child: Column(
-          children: [
-            Text("Content"),
-            SizedBox(height: 20),
-            Image.asset("data/LogoApp.png"),
-          ],
-        ),
-      ),
+      body: LaunchPage(),
     );
   }
 }
-
-// class _Penjualan extends StatelessWidget {
-//   const _Penjualan({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home: Penjualan(),
-//     );
-//   }
-// }
-
-// class _Retur extends StatelessWidget {
-//   const _Retur({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home: Retur(),
-//     );
-//   }
-// }
