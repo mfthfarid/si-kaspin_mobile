@@ -19,12 +19,12 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Form Login',
-          // textAlign: Center(),
-        ),
-      ),
+      // appBar: AppBar(
+      //     // title: Text(
+      //     //   'Form Login',
+      //     //   // textAlign: Center(),
+      //     // ),
+      //     ),
       body: SafeArea(
         child: Stack(
           children: [
@@ -40,7 +40,7 @@ class LoginPage extends StatelessWidget {
             Center(
               child: FractionallySizedBox(
                 widthFactor: 0.8,
-                heightFactor: 0.8,
+                heightFactor: 0.5,
                 child: Container(
                   width: 500,
                   height: 500,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kaspin/laciDrawer.dart';
-import '';
+import 'package:kaspin/drawer.dart'; // Pastikan impor ini benar, ganti 'kaspin' dengan package name yang sesuai
 
 class Retur extends StatelessWidget {
   const Retur({
@@ -13,46 +12,72 @@ class Retur extends StatelessWidget {
       appBar: AppBar(
         title: Text("Retur"),
         centerTitle: true,
-        // leading: FlutterLogo(),
-        // title: Text("Katalog"),
-        // centerTitle: false,
-        // actions: [
-        //   IconButton(
-        //     onPressed: () {
-        //       //
-        //     },
-        //     icon: Icon(Icons.more_vert),
-        //   ),
-        // ],
       ),
       drawer: MyDrawer(),
-      body: ListView.builder(
-        padding: EdgeInsets.all(20),
-        itemCount: 50,
-        itemBuilder: (context, index) => Padding(
-          padding: const EdgeInsets.only(bottom: 25),
-          child: Container(
-            padding: EdgeInsets.all(20),
-            alignment: Alignment.bottomLeft,
-            height: 200,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Colors.grey[300],
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(
-                  "https://picsum.photos/id/${778 + index}/200/300",
-                ),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Expanded(
+                    child: Container(
+                      child: Padding(
+                        padding:
+                            const EdgeInsets.only(left: 16, top: 8, bottom: 8),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "Batako Kotak",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 22,
+                              ),
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: <Widget>[
+                                Text(
+                                  'Wembley, London',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      color: Colors.grey.withOpacity(0.8)),
+                                ),
+                                const SizedBox(
+                                  width: 4,
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 16, top: 8),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: <Widget>[
+                                  Text(
+                                    '/per night',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.grey.withOpacity(0.8)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            child: Text(
-              "Hellow ${index + 1}",
-              style: TextStyle(
-                fontSize: 25,
-                color: Colors.white,
-              ),
-            ),
-          ),
+          ],
         ),
       ),
     );

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kaspin/laciDrawer.dart';
+import 'package:kaspin/drawer.dart';
+import 'package:kaspin/transaksi/form_beli.dart';
+import 'package:kaspin/transaksi/keranjang.dart';
 import './profile.dart';
 import './retur.dart';
 
@@ -15,10 +17,18 @@ class Penjualan extends StatelessWidget {
         title: Text("Penjualan"),
         actions: [
           IconButton(
+            icon: Icon(
+              Icons.add_shopping_cart_outlined,
+              // color: Colors.white,
+            ),
             onPressed: () {
-              //
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => Keranjang()),
+              );
             },
-            icon: Icon(Icons.add_shopping_cart_outlined),
+            color: Colors.green.shade300,
+            tooltip: 'Keranjang',
           ),
         ],
       ),
@@ -48,7 +58,10 @@ class Penjualan extends StatelessWidget {
                     title: Text("Batako Kotak Biasa"),
                     subtitle: Text("Harga"),
                     onTap: () {
-                      //
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => formbeli()),
+                      );
                     },
                   ),
                   SizedBox(
@@ -71,7 +84,10 @@ class Penjualan extends StatelessWidget {
                       ],
                     ),
                     onTap: () {
-                      //
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => formbeli()),
+                      );
                     },
                   ),
                   ListTile(
@@ -91,7 +107,10 @@ class Penjualan extends StatelessWidget {
                       ],
                     ),
                     onTap: () {
-                      //
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => formbeli()),
+                      );
                     },
                   ),
                   ListTile(
@@ -111,7 +130,10 @@ class Penjualan extends StatelessWidget {
                       ],
                     ),
                     onTap: () {
-                      //
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => formbeli()),
+                      );
                     },
                   ),
                   ListTile(
@@ -131,7 +153,10 @@ class Penjualan extends StatelessWidget {
                       ],
                     ),
                     onTap: () {
-                      //
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => formbeli()),
+                      );
                     },
                   ),
                   ListTile(
@@ -151,7 +176,10 @@ class Penjualan extends StatelessWidget {
                       ],
                     ),
                     onTap: () {
-                      //
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => formbeli()),
+                      );
                     },
                   ),
                   ListTile(
@@ -171,7 +199,10 @@ class Penjualan extends StatelessWidget {
                       ],
                     ),
                     onTap: () {
-                      //
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => formbeli()),
+                      );
                     },
                   ),
                 ],
