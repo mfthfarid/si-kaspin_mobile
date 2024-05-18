@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:kaspin/menu/penjualan.dart';
-import 'constanta.dart';
+import 'constans.dart';
 
 class LaunchPage extends StatefulWidget {
   @override
@@ -40,8 +40,8 @@ class _LaunchPage extends State<LaunchPage> {
           borderRadius: BorderRadius.all(Radius.circular(0)),
           boxShadow: <BoxShadow>[
             BoxShadow(
-              color: Colors.grey.shade300,
-              offset: Offset(2, 4),
+              color: Color.fromARGB(255, 57, 58, 57),
+              // offset: Offset(2, 4),
               blurRadius: 5,
               spreadRadius: 2,
             ),

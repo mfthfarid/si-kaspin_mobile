@@ -1,31 +1,60 @@
 import 'package:flutter/material.dart';
 import 'package:kaspin/drawer.dart';
 import 'package:kaspin/menu/penjualan.dart';
+import 'package:kaspin/models/produk_model.dart';
 
 class formbeli extends StatelessWidget {
-  final _formKey = GlobalKey<FormState>();
+  final List<ProductModel> products;
+
+  formbeli({required this.products});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Stack(children: [
-          Positioned(
-            left: 16,
-            right: 16.0,
-            bottom: 16.0,
-            child: Card(
-              elevation: 4.0,
-              child: Padding(
-                padding: EdgeInsets.all(16.0),
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+      body: ListView.builder(
+        itemCount: products.length,
+        itemBuilder: (context, index) {
+          ProductModel product = products[index];
+          return ListTile(
+            title: Text(product.name),
+            subtitle: Text('Harga: ${product.harga.toString()}'),
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text('Pembelian'),
+                  content: Form(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextFormField(
+                          decoration:
+                              InputDecoration(labelText: 'Product Name'),
+                          initialValue: product.name,
+                          enabled: false, // Non-editable field
+                        ),
+                        TextFormField(
+                          decoration:
+                              InputDecoration(labelText: 'Product Price'),
+                          initialValue: product.harga.toString(),
+                          enabled: false, // Non-editable field
+                        ),
+                      ],
+                    ),
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Text('Close'),
+                    ),
+                  ],
                 ),
-              ),
-            ),
-          ),
-        ]),
+              );
+            },
+          );
+        },
       ),
     );
   }
