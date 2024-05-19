@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kaspin/menu/penjualan.dart';
-import 'package:kaspin/menu/profile.dart';
 import 'package:kaspin/menu/retur.dart';
-import 'package:avatar_glow/avatar_glow.dart';
 import 'package:kaspin/login/login.dart';
 
 class MyDrawer extends StatefulWidget {
@@ -96,23 +94,23 @@ class _MyDrawer extends State<MyDrawer> {
               title: Text("Penjualan"),
               textColor: Color.fromARGB(255, 56, 157, 66),
             ),
-            ListTile(
-              onTap: () {
-                _onItemTapped(2);
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Retur()),
-                );
-              },
-              selected: selectedIndex == 2,
-              leading: Icon(
-                Icons.restore_page_outlined,
-                color: Colors.white,
-              ),
-              title: Text("Retur"),
-              textColor: Color.fromARGB(255, 56, 157, 66),
-            ),
+            // ListTile(
+            //   onTap: () {
+            //     _onItemTapped(2);
+            //     Navigator.pop(context);
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(builder: (context) => Retur()),
+            //     );
+            //   },
+            //   selected: selectedIndex == 2,
+            //   leading: Icon(
+            //     Icons.restore_page_outlined,
+            //     color: Colors.white,
+            //   ),
+            //   title: Text("Retur"),
+            //   textColor: Color.fromARGB(255, 56, 157, 66),
+            // ),
             Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,

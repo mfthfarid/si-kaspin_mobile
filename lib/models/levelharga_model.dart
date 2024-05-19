@@ -1,25 +1,22 @@
-import 'package:flutter/material.dart';
-
 class LevelHargaModel {
-  final int id;
-  final int idProduk;
-  final String name;
-  final int hargaSatuan;
-  // final int hargaGrosir;
+  String kode_level;
+  String kode_produk;
+  String nama_level;
+  int harga_satuan;
+
   LevelHargaModel({
-    required this.id,
-    required this.idProduk,
-    required this.name,
-    required this.hargaSatuan,
+    required this.kode_level,
+    required this.kode_produk,
+    required this.nama_level,
+    required this.harga_satuan,
   });
 
   factory LevelHargaModel.fromJson(Map<String, dynamic> json) {
     return LevelHargaModel(
-      id: json['id'] as int,
-      idProduk: json['idProduk'] as int,
-      name: json['name'] as String,
-      hargaSatuan: json['harga'] as int,
-      // hargaGrosir: json['hargaGrosir'] as int,
+      kode_level: json['kode_level'],
+      kode_produk: json['kode_produk'],
+      nama_level: json['nama_level'],
+      harga_satuan: int.parse(json['harga_satuan']),
     );
   }
 }

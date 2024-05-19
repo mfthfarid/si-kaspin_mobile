@@ -1,13 +1,16 @@
 class KategoriModel {
-  final int id;
-  final String name;
+  String kode_kategori;
+  String nama_kategori;
 
-  KategoriModel({required this.id, required this.name});
+  KategoriModel({
+    required this.kode_kategori,
+    required this.nama_kategori,
+  });
 
   factory KategoriModel.fromJson(Map<String, dynamic> json) {
     return KategoriModel(
-      id: json['id'] as int,
-      name: json['name'] as String,
+      kode_kategori: json['kode_kategori'],
+      nama_kategori: json['nama_kategori'],
     );
   }
 }
