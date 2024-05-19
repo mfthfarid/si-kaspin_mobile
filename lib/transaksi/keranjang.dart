@@ -1,13 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:kaspin/drawer.dart';
+import 'package:kaspin/models/keranjang_model.dart';
 
 class Keranjang extends StatelessWidget {
-  const Keranjang({
-    Key? key,
-  }) : super(key: key);
+  final List<CartModel> cartItems;
+
+  Keranjang(this.cartItems);
+
+  String formatRupiah(String nominal) {
+    return 'Rp. ${nominal.replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}';
+  }
 
   @override
   Widget build(BuildContext context) {
+    print('Cart Items:');
+    for (var cartItem in cartItems) {
+      print('Kode Produk: ${cartItem.kodeProduk}');
+      print('Nama Produk: ${cartItem.namaProduk}');
+      print('Jumlah: ${cartItem.jumlah}');
+      print('Harga Satuan: ${formatRupiah(cartItem.hargaSatuan.toString())}');
+      print('Subtotal: ${formatRupiah(cartItem.subtotal.toString())}');
+      print('-------------------------');
+    }
     return Scaffold(
       // appBar: AppBar(
       //   title: Text("Keranjang"),

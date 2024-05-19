@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kaspin/main.dart';
-import 'package:avatar_glow/avatar_glow.dart';
 
 void main() {
   runApp(MyApp());

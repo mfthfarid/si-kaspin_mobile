@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kaspin/models/produk_model.dart';
 
 class Item extends StatelessWidget {
-  ProductModel product;
+  final ProductModel product;
 
   Item({super.key, required this.product});
 
@@ -16,7 +16,7 @@ class Item extends StatelessWidget {
             Radius.circular(5),
           ),
           child: Image.asset(
-            product.pathGambar,
+            product.gambar,
             height: 80,
             width: 80,
             fit: BoxFit.cover,
@@ -30,7 +30,7 @@ class Item extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              product.name,
+              product.nama_produk,
               style: const TextStyle(
                   fontFamily: 'Poppins',
                   fontWeight: FontWeight.w500,
@@ -38,7 +38,7 @@ class Item extends StatelessWidget {
                   color: Color(0xFF202224)),
             ),
             Text(
-              '${product.kategori.name} | Stok : ${product.stok}',
+              '${product.kategori.nama_kategori} | Stok : ${product.stock}',
               style: const TextStyle(
                 fontFamily: 'Poppins',
                 fontSize: 12,

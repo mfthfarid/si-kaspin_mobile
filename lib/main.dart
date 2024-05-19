@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kaspin/drawer.dart';
 import 'package:kaspin/launch/launcher.dart';
-import './menu/profile.dart';
-import './menu/penjualan.dart';
-import './menu/retur.dart';
-import 'package:kaspin/login/login.dart';
 
 void main() {
   runApp(MyApp());
