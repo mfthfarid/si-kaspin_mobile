@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:html';
 import 'dart:js_util';
 import 'package:flutter/material.dart';
 import 'package:kaspin/components/item.dart';
@@ -252,7 +253,14 @@ class _Penjualan extends State<Penjualan> {
                 children: [
                   Text("Kategori: ${product.kategori.name}"),
                   Text("Stok: ${product.stok.toString()}"),
-                  Text("Harga: RP. ${getHargaByName(product.harga, "eceran")}"),
+                  Text(
+                    'Harga: RP. ${getHargaByName(product.harga, "eceran")}',
+                    // style: GoogleFonts.lobster(
+                    //   textStyle: TextStyle(
+                    //     color: Colors.green,
+                    //   ),
+                    // ),
+                  ),
                 ],
               ),
               onTap: () {
@@ -312,7 +320,7 @@ class _Penjualan extends State<Penjualan> {
                             TextFormField(
                               decoration: InputDecoration(labelText: 'Harga'),
                               initialValue:
-                                  'Rp. ${getHargaByName(product.harga, '')}',
+                                  'Rp. ${getHargaByName(product.harga, 'eceran')}',
                               enabled: false,
                             )
                           ],
