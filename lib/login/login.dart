@@ -95,14 +95,25 @@ class _LoginFormState extends State<LoginForm> {
           ),
           SizedBox(height: 20.0),
           ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                  (Set<MaterialState> states) {
+                if (states.contains(MaterialState.pressed)) {
+                  return Color.fromARGB(255, 11, 49, 27);
+                }
+                return Colors.green;
+              }),
+              foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                  (Set<MaterialState> states) {
+                if (states.contains(MaterialState.pressed)) return Colors.black;
+                return Colors.white; // Warna default
+              }),
+            ),
             onPressed: () {
-              // Logika autentikasi akan ditambahkan di sini
               String username = _usernameController.text;
               String password = _passwordController.text;
 
-              // Contoh autentikasi sederhana
               if (username == 'admin' && password == 'admin123') {
-                // Jika autentikasi berhasil, navigasi ke halaman beranda
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => HomePage()),

@@ -235,11 +235,13 @@ class _PenjualanState extends State<Penjualan> {
                                     });
                                   } else {
                                     CartModel cartItem = CartModel(
+                                      Kategori: product.kategori.nama_kategori,
                                       kodeProduk: product.kode_produk,
                                       namaProduk: product.nama_produk,
                                       jumlah: jumlah,
                                       hargaSatuan: harga,
                                       subtotal: subtotal,
+                                      gambar: product.gambar,
                                     );
 
                                     setState(() {
