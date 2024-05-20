@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:kaspin/menu/penjualan.dart';
+import 'package:kaspin/models/produk_model.dart';
+import 'package:kaspin/models/produk_model.dart';
+import 'package:kaspin/models/keranjang_model.dart';
+import 'package:kaspin/models/levelharga_model.dart';
+import 'package:kaspin/models/transaksi_model.dart';
 
 class Pembayaran extends StatefulWidget {
   @override
@@ -11,7 +17,6 @@ class _Pembayaran extends State<Pembayaran> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Pembayaran"),
-        centerTitle: true,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios_rounded,
@@ -25,13 +30,49 @@ class _Pembayaran extends State<Pembayaran> {
         ),
       ),
       body: SafeArea(
-        child: Column(
-          children: [
-            TextFormField(
-              decoration: InputDecoration(labelText: 'Bayar'),
-              keyboardType: TextInputType.number,
-            ),
-          ],
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+          child: Column(
+            children: [
+              TextFormField(
+                decoration: InputDecoration(
+                  // floatingLabelBehavior: FloatingLabelBehavior.always,
+                  labelText: 'Bayar',
+                  labelStyle: TextStyle(
+                      // fontFamily:
+                      ),
+                  hintText: 'Rp. 0',
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8.0),
+                    borderSide: BorderSide(
+                      color: Colors.black,
+                      width: 2.0,
+                    ),
+                  ),
+                ),
+                keyboardType: TextInputType.number,
+              ),
+              // if bayar lebih = kembalian
+              // else bayar kurang = duwekmu kurang
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(),
+                    child: Text(
+                      'Kurang ${LevelHargaModel}',
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomAppBar(
@@ -65,7 +106,7 @@ class _Pembayaran extends State<Pembayaran> {
                   // textStyle: MaterialStateProperty.all(
                   //     TextStyle(fontSize: 20)), // Ukuran teks lebih besar
                   padding: MaterialStateProperty.all(
-                      EdgeInsets.symmetric(horizontal: 28, vertical: 18)),
+                      EdgeInsets.symmetric(horizontal: 20, vertical: 18)),
 
                   backgroundColor: MaterialStateProperty.resolveWith<Color>(
                       (Set<MaterialState> states) {
@@ -89,13 +130,21 @@ class _Pembayaran extends State<Pembayaran> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Pembayaran()),
+                    MaterialPageRoute(builder: (context) => Penjualan()),
                   );
                 },
-                child: Text("Simpan"),
-                // child: Icon(
-                //   Icons.coin,
-                // ),
+                child: Row(
+                  children: [
+                    Icon(Icons.attach_money_rounded),
+                    Text(
+                      "Simpan",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

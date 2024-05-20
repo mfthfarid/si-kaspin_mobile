@@ -209,7 +209,6 @@ class _Keranjang extends State<Keranjang> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Keranjang"),
-        centerTitle: true,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios_rounded,
@@ -398,7 +397,13 @@ class _Keranjang extends State<Keranjang> {
                     MaterialPageRoute(builder: (context) => Pembayaran()),
                   );
                 },
-                child: Text("Lanjutkan"),
+                child: Text(
+                  "Lanjutkan",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
               ),
             ],
           ),

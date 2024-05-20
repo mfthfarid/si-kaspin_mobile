@@ -213,7 +213,7 @@ class _Penjualan extends State<Penjualan> {
           IconButton(
             icon: Icon(
               Icons.add_shopping_cart_outlined,
-              // color: Colors.white,
+              color: Colors.green.shade300,
             ),
             onPressed: () {
               Navigator.push(
@@ -221,7 +221,6 @@ class _Penjualan extends State<Penjualan> {
                 MaterialPageRoute(builder: (context) => Keranjang()),
               );
             },
-            color: Colors.green.shade300,
             tooltip: 'Keranjang',
           ),
         ],
@@ -338,7 +337,29 @@ class _Penjualan extends State<Penjualan> {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text('Simpan'),
+                        child: Container(
+                          height: 37,
+                          width: 103,
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            color: Colors.green,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          alignment: Alignment.center,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(Icons.add_shopping_cart_outlined),
+                              Text(
+                                "Simpan",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),
