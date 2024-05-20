@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kaspin/launch/launcher.dart';
 import 'package:kaspin/main.dart';
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:kaspin/menu/penjualan.dart';
 
 void main() {
   runApp(MyApp());
@@ -141,7 +143,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: (MyHomePage()),
+      body: Penjualan(),
     );
   }
 }

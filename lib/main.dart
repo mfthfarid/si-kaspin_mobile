@@ -41,7 +41,7 @@ class _MyHomePageState extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: LaunchPage(),
+      body: (LaunchPage()),
     );
   }
 }
