@@ -160,7 +160,13 @@ class _KeranjangState extends State<Keranjang> {
                     MaterialPageRoute(builder: (context) => Pembayaran()),
                   );
                 },
-                child: Text("Lanjutkan"),
+                child: Text(
+                  "Lanjutkan",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
               ),
             ],
           ),

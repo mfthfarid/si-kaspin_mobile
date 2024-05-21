@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:kaspin/menu/penjualan.dart';
+import 'package:kaspin/models/produk_model.dart';
+import 'package:kaspin/models/produk_model.dart';
+import 'package:kaspin/models/keranjang_model.dart';
+import 'package:kaspin/models/levelharga_model.dart';
+import 'package:kaspin/models/transaksi_model.dart';
 
 class Pembayaran extends StatefulWidget {
   @override
@@ -132,7 +138,7 @@ class _Pembayaran extends State<Pembayaran> {
                   // textStyle: MaterialStateProperty.all(
                   //     TextStyle(fontSize: 20)), // Ukuran teks lebih besar
                   padding: MaterialStateProperty.all(
-                      EdgeInsets.symmetric(horizontal: 28, vertical: 18)),
+                      EdgeInsets.symmetric(horizontal: 20, vertical: 18)),
 
                   backgroundColor: MaterialStateProperty.resolveWith<Color>(
                       (Set<MaterialState> states) {
@@ -156,13 +162,21 @@ class _Pembayaran extends State<Pembayaran> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Pembayaran()),
+                    MaterialPageRoute(builder: (context) => Penjualan()),
                   );
                 },
-                child: Text("Simpan"),
-                // child: Icon(
-                //   Icons.coin,
-                // ),
+                child: Row(
+                  children: [
+                    Icon(Icons.attach_money_rounded),
+                    Text(
+                      "Simpan",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
