@@ -251,6 +251,9 @@ class _Pembayaran extends State<Pembayaran> {
                   }
                 },
                 child: Text("Simpan"),
+                // child: Icon(
+                //   Icons.coin,
+                // ),
               ),
             ],
           ),

@@ -60,6 +60,9 @@ flutter:
     - data/obeng.jpg
     - data/tang.jpg
     - data/tank-harimau.jpg
+    - data/kasir1.jpg
+    - data/kasir2.jpg
+    - data/kasir3.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

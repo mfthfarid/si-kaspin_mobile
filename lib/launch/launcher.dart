@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:kaspin/login/login.dart';
 import 'package:kaspin/menu/penjualan.dart';
 import 'constans.dart';
 
@@ -25,7 +26,7 @@ class _LaunchPage extends State<LaunchPage> {
     var duration = const Duration(seconds: 2);
     return new Timer(duration, () {
       Navigator.of(context).pushReplacement(new MaterialPageRoute(builder: (_) {
-        return new Penjualan();
+        return new LoginPage();
       }));
     });
   }

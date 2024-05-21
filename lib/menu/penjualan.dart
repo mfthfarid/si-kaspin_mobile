@@ -65,7 +65,7 @@ class _PenjualanState extends State<Penjualan> {
           IconButton(
             icon: Icon(
               Icons.add_shopping_cart_outlined,
-              // color: Colors.white,
+              color: Colors.green.shade300,
             ),
             onPressed: () {
               Navigator.push(
@@ -73,7 +73,6 @@ class _PenjualanState extends State<Penjualan> {
                 MaterialPageRoute(builder: (context) => Keranjang(keranjang)),
               );
             },
-            color: Colors.green.shade300,
             tooltip: 'Keranjang',
           ),
         ],
