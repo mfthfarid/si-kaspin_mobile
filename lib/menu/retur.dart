@@ -1,5 +1,3 @@
-import 'dart:js_interop';
-
 import 'package:flutter/material.dart';
 import 'package:kaspin/drawer.dart';
 import 'package:kaspin/models/keranjang_model.dart';

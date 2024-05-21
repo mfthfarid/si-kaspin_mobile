@@ -1,17 +1,71 @@
 import 'package:flutter/material.dart';
-import 'package:kaspin/menu/penjualan.dart';
-import 'package:kaspin/models/produk_model.dart';
-import 'package:kaspin/models/produk_model.dart';
-import 'package:kaspin/models/keranjang_model.dart';
-import 'package:kaspin/models/levelharga_model.dart';
-import 'package:kaspin/models/transaksi_model.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:kaspin/services/ProduksAPI.dart';
+import 'package:flutter/material.dart';
 
 class Pembayaran extends StatefulWidget {
+  final int totalHarga;
+  Pembayaran({required this.totalHarga});
+
   @override
   _Pembayaran createState() => _Pembayaran();
 }
 
 class _Pembayaran extends State<Pembayaran> {
+  ProduksAPI produksAPI = ProduksAPI();
+  TextEditingController bayarController = TextEditingController();
+  TextEditingController bayarController1 = TextEditingController();
+  TextEditingController kembalianController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    bayarController.addListener(() {
+      _updateKembalian();
+    });
+  }
+
+  @override
+  void dispose() {
+    bayarController.dispose();
+    kembalianController.dispose();
+    super.dispose();
+  }
+
+  String formatRupiah(int amount) {
+    final formatter =
+        NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ', decimalDigits: 0);
+    return formatter.format(amount);
+  }
+
+  void _updateKembalian() {
+    if (bayarController.text.isNotEmpty && widget.totalHarga > 0) {
+      String cleanText = bayarController.text.replaceAll(RegExp(r'[^\d]'), '');
+      if (cleanText.isNotEmpty) {
+        int bayar = int.parse(cleanText);
+        int kembalian = bayar - widget.totalHarga;
+
+        if (kembalian > 0) {
+          kembalianController.text = formatRupiah(kembalian);
+        } else {
+          kembalianController.text = formatRupiah(0);
+        }
+      } else {
+        kembalianController.text = formatRupiah(0);
+      }
+    } else {
+      kembalianController.text = formatRupiah(0);
+    }
+  }
+
+  String formatInput(String value) {
+    String cleanText = value.replaceAll(RegExp(r'[^\d]'), '');
+    if (cleanText.isEmpty) return '';
+    int amount = int.parse(cleanText);
+    return formatRupiah(amount);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +74,6 @@ class _Pembayaran extends State<Pembayaran> {
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios_rounded,
-            // color: Colors.white,
           ),
           onPressed: () {
             Navigator.of(context).pop();
@@ -42,45 +95,7 @@ class _Pembayaran extends State<Pembayaran> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(
-                  height:
-                      8.0), // Add some space between the label and the field
-              Container(
-                width: double.infinity, // You can set a specific width here
-                height: 50.0, // Set the desired height
-                padding: EdgeInsets.symmetric(horizontal: 12.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                  border: Border.all(color: Colors.grey),
-                  color: Colors.white,
-                ),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: TextFormField(
-                    decoration: InputDecoration(
-                      border: InputBorder.none, // Remove default border
-                      isDense: true, // Reduces the height of the input
-                      contentPadding: EdgeInsets.symmetric(
-                          vertical: 8.0), // Adjust vertical padding
-                      hintText: "Rp. ",
-                    ),
-                    keyboardType: TextInputType.number,
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 16.0,
-              ),
-              Text(
-                'Kembalian',
-                style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(
-                height: 8.0,
-              ),
+              SizedBox(height: 8.0),
               Container(
                 width: double.infinity,
                 height: 50.0,
@@ -93,16 +108,61 @@ class _Pembayaran extends State<Pembayaran> {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: TextFormField(
+                    controller: bayarController,
                     decoration: InputDecoration(
                       border: InputBorder.none,
                       isDense: true,
                       contentPadding: EdgeInsets.symmetric(vertical: 8.0),
-                      hintText: "Rp. ",
+                      hintText: "Rp ",
                     ),
                     keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      TextInputFormatter.withFunction((oldValue, newValue) {
+                        String formattedText = formatInput(newValue.text);
+                        return TextEditingValue(
+                          text: formattedText,
+                          selection: TextSelection.collapsed(
+                              offset: formattedText.length),
+                        );
+                      }),
+                    ],
                   ),
                 ),
-              )
+              ),
+              SizedBox(height: 16.0),
+              Text(
+                'Kembalian',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 8.0),
+              Container(
+                width: double.infinity,
+                height: 50.0,
+                padding: EdgeInsets.symmetric(horizontal: 12.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                  border: Border.all(color: Colors.grey),
+                  color: Colors.white,
+                ),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextFormField(
+                    controller: kembalianController,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      isDense: true,
+                      contentPadding: EdgeInsets.symmetric(vertical: 8.0),
+                      hintText: "Rp ",
+                    ),
+                    keyboardType: TextInputType.number,
+                    readOnly: true,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -121,8 +181,7 @@ class _Pembayaran extends State<Pembayaran> {
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "Harga",
-                    // '\$${_totalPrice.toStringAsFixed(2)}',
+                    formatRupiah(widget.totalHarga),
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -133,50 +192,68 @@ class _Pembayaran extends State<Pembayaran> {
               ),
               ElevatedButton(
                 style: ButtonStyle(
-                  // minimumSize: MaterialStateProperty.all(
-                  //     Size(200, 50)),
-                  // textStyle: MaterialStateProperty.all(
-                  //     TextStyle(fontSize: 20)), // Ukuran teks lebih besar
                   padding: MaterialStateProperty.all(
-                      EdgeInsets.symmetric(horizontal: 20, vertical: 18)),
-
+                    EdgeInsets.symmetric(horizontal: 28, vertical: 18),
+                  ),
                   backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.pressed)) {
-                      return Color.fromARGB(255, 11, 49, 27);
-                    }
-                    return Colors.green;
-                  }),
+                    (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.pressed)) {
+                        return Color.fromARGB(255, 11, 49, 27);
+                      }
+                      return Colors.green;
+                    },
+                  ),
                   foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.pressed))
-                      return Colors.black;
-                    return Colors.white;
-                  }),
+                    (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.pressed))
+                        return Colors.black;
+                      return Colors.white;
+                    },
+                  ),
                   elevation: MaterialStateProperty.resolveWith<double>(
-                      (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.pressed)) return 100;
-                    return 5;
-                  }),
+                    (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.pressed)) return 100;
+                      return 5;
+                    },
+                  ),
                 ),
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Penjualan()),
-                  );
+                  int totalHarga = widget.totalHarga;
+                  int bayar = int.parse(formatInput(bayarController.text)
+                      .replaceAll(RegExp(r'[^\d]'), ''));
+                  int kembalian = int.parse(
+                      formatInput(kembalianController.text)
+                          .replaceAll(RegExp(r'[^\d]'), ''));
+
+                  if (bayar < totalHarga) {
+                    // Menampilkan notifikasi jika jumlah yang dibayar kurang dari total harga
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("Peringatan"),
+                          content: Text(
+                              "Jumlah yang dibayar kurang dari total harga."),
+                          actions: [
+                            TextButton(
+                              child: Text("OK"),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  } else {
+                    // Mengirimkan data ke API jika jumlah yang dibayar cukup
+                    ProduksAPI.postProduct(widget.totalHarga, bayar, kembalian);
+                  }
                 },
-                child: Row(
-                  children: [
-                    Icon(Icons.attach_money_rounded),
-                    Text(
-                      "Simpan",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
+                child: Text("Simpan"),
+                // child: Icon(
+                //   Icons.coin,
+                // ),
               ),
             ],
           ),
