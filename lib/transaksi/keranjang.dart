@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:js_util';
 import 'package:flutter/material.dart';
 import 'package:kaspin/components/item.dart';
 import 'package:kaspin/components/produksi.dart';
@@ -157,7 +156,9 @@ class _KeranjangState extends State<Keranjang> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Pembayaran()),
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            Pembayaran(totalHarga: totalHarga)),
                   );
                 },
                 child: Text("Lanjutkan"),
