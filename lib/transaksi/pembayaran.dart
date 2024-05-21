@@ -31,46 +31,78 @@ class _Pembayaran extends State<Pembayaran> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextFormField(
-                decoration: InputDecoration(
-                  // floatingLabelBehavior: FloatingLabelBehavior.always,
-                  labelText: 'Bayar',
-                  labelStyle: TextStyle(
-                      // fontFamily:
-                      ),
-                  hintText: 'Rp. 0',
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide(
-                      color: Colors.black,
-                      width: 2.0,
+              Text(
+                'Bayar',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                  height:
+                      8.0), // Add some space between the label and the field
+              Container(
+                width: double.infinity, // You can set a specific width here
+                height: 50.0, // Set the desired height
+                padding: EdgeInsets.symmetric(horizontal: 12.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                  border: Border.all(color: Colors.grey),
+                  color: Colors.white,
+                ),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      border: InputBorder.none, // Remove default border
+                      isDense: true, // Reduces the height of the input
+                      contentPadding: EdgeInsets.symmetric(
+                          vertical: 8.0), // Adjust vertical padding
+                      hintText: "Rp. ",
                     ),
+                    keyboardType: TextInputType.number,
                   ),
                 ),
-                keyboardType: TextInputType.number,
               ),
-              // if bayar lebih = kembalian
-              // else bayar kurang = duwekmu kurang
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(),
-                    child: Text(
-                      'Kurang ${LevelHargaModel}',
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 13,
-                      ),
+              SizedBox(
+                height: 16.0,
+              ),
+              Text(
+                'Kembalian',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
+              Container(
+                width: double.infinity,
+                height: 50.0,
+                padding: EdgeInsets.symmetric(horizontal: 12.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                  border: Border.all(color: Colors.grey),
+                  color: Colors.white,
+                ),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextFormField(
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      isDense: true,
+                      contentPadding: EdgeInsets.symmetric(vertical: 8.0),
+                      hintText: "Rp. ",
                     ),
+                    keyboardType: TextInputType.number,
                   ),
-                ],
-              ),
+                ),
+              )
             ],
           ),
         ),

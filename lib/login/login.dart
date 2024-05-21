@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kaspin/launch/launcher.dart';
 import 'package:kaspin/main.dart';
-import 'package:avatar_glow/avatar_glow.dart';
 import 'package:kaspin/menu/penjualan.dart';
 
 void main() {

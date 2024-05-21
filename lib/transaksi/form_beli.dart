@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kaspin/drawer.dart';
-import 'package:kaspin/menu/penjualan.dart';
 import 'package:kaspin/models/produk_model.dart';
 
 class formbeli extends StatelessWidget {
@@ -16,7 +14,7 @@ class formbeli extends StatelessWidget {
         itemBuilder: (context, index) {
           ProductModel product = products[index];
           return ListTile(
-            title: Text(product.name),
+            title: Text(product.nama_produk),
             subtitle: Text('Harga: ${product.harga.toString()}'),
             onTap: () {
               showDialog(
@@ -30,7 +28,7 @@ class formbeli extends StatelessWidget {
                         TextFormField(
                           decoration:
                               InputDecoration(labelText: 'Product Name'),
-                          initialValue: product.name,
+                          initialValue: product.nama_produk,
                           enabled: false, // Non-editable field
                         ),
                         TextFormField(
