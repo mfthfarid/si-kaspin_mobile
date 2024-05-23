@@ -231,19 +231,19 @@ class _ReturState extends State<Retur> {
                                           subtotal;
                                     });
                                   } else {
-                                    CartModel cartItem = CartModel(
-                                      Kategori: product.kategori.nama_kategori,
-                                      kodeProduk: product.kode_produk,
-                                      namaProduk: product.nama_produk,
-                                      jumlah: jumlah,
-                                      hargaSatuan: harga,
-                                      subtotal: subtotal,
-                                      gambar: product.gambar,
-                                    );
+                                    // CartModel cartItem = CartModel(
+                                    //     Kategori:
+                                    //         product.kategori.nama_kategori,
+                                    //     kodeProduk: product.kode_produk,
+                                    //     namaProduk: product.nama_produk,
+                                    //     jumlah: jumlah,
+                                    //     hargaSatuan: harga,
+                                    //     subtotal: subtotal,
+                                    //     gambar: product.gambar);
 
-                                    setState(() {
-                                      keranjang.add(cartItem);
-                                    });
+                                    // setState(() {
+                                    //   keranjang.add(cartItem);
+                                    // });
                                   }
 
                                   Navigator.of(context).pop();
