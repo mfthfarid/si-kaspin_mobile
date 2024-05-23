@@ -1,11 +1,5 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:kaspin/components/item.dart';
-import 'package:kaspin/components/produksi.dart';
-import 'package:kaspin/drawer.dart';
 import 'package:kaspin/models/keranjang_model.dart';
-import 'package:kaspin/models/levelharga_model.dart';
-import 'package:kaspin/models/produk_model.dart';
 import 'package:kaspin/transaksi/pembayaran.dart';
 
 class Keranjang extends StatefulWidget {
@@ -18,11 +12,15 @@ class Keranjang extends StatefulWidget {
 
 class _KeranjangState extends State<Keranjang> {
   late int totalHarga;
+  late String kodeProduk;
+  late int jumlah;
+  late int subtotal;
 
   @override
   void initState() {
     super.initState();
     updateTotalHarga();
+    getProduk();
   }
 
   void updateTotalHarga() {
@@ -33,6 +31,23 @@ class _KeranjangState extends State<Keranjang> {
     setState(() {
       totalHarga = total;
     });
+  }
+
+  void clearCart() {
+    setState(() {
+      widget.cartItems.clear();
+      totalHarga = 0;
+    });
+  }
+
+  void getProduk() {
+    for (var cartItem in widget.cartItems) {
+      setState(() {
+        kodeProduk = cartItem.kodeProduk;
+        jumlah = cartItem.jumlah;
+        subtotal = cartItem.subtotal;
+      });
+    }
   }
 
   String formatRupiah(String nominal) {
@@ -153,13 +168,19 @@ class _KeranjangState extends State<Keranjang> {
                     return 5;
                   }),
                 ),
-                onPressed: () {
-                  Navigator.push(
+                onPressed: () async {
+                  final result = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                            Pembayaran(totalHarga: totalHarga)),
+                        builder: (context) => Pembayaran(
+                              totalHarga: totalHarga,
+                              data: widget.cartItems,
+                            )),
                   );
+
+                  if (result == true) {
+                    clearCart();
+                  }
                 },
                 child: Text(
                   "Lanjutkan",

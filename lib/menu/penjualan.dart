@@ -1,12 +1,14 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:kaspin/drawer.dart';
 import 'package:kaspin/models/keranjang_model.dart';
 import 'package:kaspin/models/levelharga_model.dart';
 import 'package:kaspin/services/ProduksAPI.dart';
 import 'package:kaspin/transaksi/keranjang.dart';
-import 'package:kaspin/models/kategori_model.dart';
 import 'package:kaspin/models/produk_model.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Penjualan extends StatefulWidget {
   const Penjualan({
@@ -34,6 +36,32 @@ class _PenjualanState extends State<Penjualan> {
       subtotalController.text = formatRupiah(subtotal);
     } else {
       subtotalController.clear();
+    }
+  }
+
+  Future<void> createCartItem(
+      ProductModel product, int jumlah, int harga, int subtotal) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? id = prefs.getInt('id');
+
+    if (id != null) {
+      CartModel cartItem = CartModel(
+        Kategori: product.kategori.nama_kategori,
+        kodeProduk: product.kode_produk,
+        namaProduk: product.nama_produk,
+        jumlah: jumlah,
+        hargaSatuan: harga,
+        subtotal: subtotal,
+        gambar: product.gambar,
+        kode_operator: id, // Mengkonversi id ke String jika perlu
+      );
+
+      setState(() {
+        keranjang.add(cartItem);
+      });
+    } else {
+      print('No user ID found.');
+      // Tangani kasus di mana id tidak ditemukan
     }
   }
 
@@ -210,7 +238,7 @@ class _PenjualanState extends State<Penjualan> {
                           ),
                           actions: [
                             TextButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 if (selectedLevelHarga != null &&
                                     jumlahController.text.isNotEmpty) {
                                   int jumlah = int.parse(jumlahController.text);
@@ -231,19 +259,8 @@ class _PenjualanState extends State<Penjualan> {
                                           subtotal;
                                     });
                                   } else {
-                                    CartModel cartItem = CartModel(
-                                      Kategori: product.kategori.nama_kategori,
-                                      kodeProduk: product.kode_produk,
-                                      namaProduk: product.nama_produk,
-                                      jumlah: jumlah,
-                                      hargaSatuan: harga,
-                                      subtotal: subtotal,
-                                      gambar: product.gambar,
-                                    );
-
-                                    setState(() {
-                                      keranjang.add(cartItem);
-                                    });
+                                    await createCartItem(
+                                        product, jumlah, harga, subtotal);
                                   }
 
                                   Navigator.of(context).pop();

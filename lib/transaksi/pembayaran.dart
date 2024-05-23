@@ -1,12 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:kaspin/models/keranjang_model.dart';
+import 'package:kaspin/models/pelanggan_model.dart';
+import 'package:kaspin/models/produk_model.dart';
+import 'package:kaspin/services/PelangganAPI.dart';
 import 'package:kaspin/services/ProduksAPI.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Pembayaran extends StatefulWidget {
   final int totalHarga;
-  Pembayaran({required this.totalHarga});
+  final List<CartModel> data;
+  // final String kodeProduk;
+  // final int jumlah;
+  // final int subtotal;
+  Pembayaran({
+    required this.totalHarga,
+    required this.data,
+    // required this.kodeProduk,
+    // required this.subtotal,
+    // required this.jumlah
+  });
 
   @override
   _Pembayaran createState() => _Pembayaran();
@@ -14,9 +29,13 @@ class Pembayaran extends StatefulWidget {
 
 class _Pembayaran extends State<Pembayaran> {
   ProduksAPI produksAPI = ProduksAPI();
+  PelangganAPI pelangganAPI = PelangganAPI();
   TextEditingController bayarController = TextEditingController();
   TextEditingController bayarController1 = TextEditingController();
   TextEditingController kembalianController = TextEditingController();
+  List<PelangganModel> pelangganList = [];
+  PelangganModel? selectedPelanggan;
+  String? kodePelanggan;
 
   @override
   void initState() {
@@ -24,6 +43,7 @@ class _Pembayaran extends State<Pembayaran> {
     bayarController.addListener(() {
       _updateKembalian();
     });
+    _fetchPelanggan();
   }
 
   @override
@@ -59,11 +79,105 @@ class _Pembayaran extends State<Pembayaran> {
     }
   }
 
+  Future<void> _fetchPelanggan() async {
+    try {
+      PelangganAPI pelangganAPI = PelangganAPI();
+      List<PelangganModel> pelanggan = await pelangganAPI.fetchPelanggan();
+      setState(() {
+        pelangganList = pelanggan;
+      });
+    } catch (e) {
+      print('Failed to load pelanggan: $e');
+    }
+  }
+
   String formatInput(String value) {
     String cleanText = value.replaceAll(RegExp(r'[^\d]'), '');
     if (cleanText.isEmpty) return '';
     int amount = int.parse(cleanText);
     return formatRupiah(amount);
+  }
+
+  Future<void> pushPenjualan(String kodePelanggan, List data) async {
+    String cleanText =
+        formatInput(bayarController.text).replaceAll(RegExp(r'[^\d]'), '');
+    int bayar = int.parse(cleanText);
+    int kembalian = int.parse(
+        formatInput(kembalianController.text).replaceAll(RegExp(r'[^\d]'), ''));
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? id = prefs.getInt('id');
+
+    // ProduksAPI.postProduct(
+    //     id!, kodePelanggan, widget.totalHarga, bayar, kembalian, data);
+
+    try {
+      final response = await ProduksAPI.postProduct(
+          id!, kodePelanggan, widget.totalHarga, bayar, kembalian, data);
+
+      if (response?["status"] == "success") {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Transaksi Berhasil"),
+              content: Text("Data berhasil disimpan"),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop(true);
+                    },
+                    child: Text('Close')),
+              ],
+            );
+          },
+        );
+        setState(() {
+          bayarController.text = 'Rp. 0';
+          bayarController1.clear();
+          kembalianController.clear();
+          selectedPelanggan = null;
+          kodePelanggan = '';
+          widget.data.clear();
+        });
+      } else {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Transaksi Gagal"),
+              content: Text("Data gagal disimpan"),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('Close')),
+              ],
+            );
+          },
+        );
+        print('Failed to save data: $response');
+      }
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Error"),
+            content: Text("Data gagal disimpan: $e"),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Close')),
+            ],
+          );
+        },
+      );
+    }
   }
 
   @override
@@ -88,6 +202,40 @@ class _Pembayaran extends State<Pembayaran> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Text(
+                'Pilih Pelanggan',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 8.0),
+              Container(
+                width: double.infinity,
+                height: 50.0,
+                child: DropdownButtonFormField<PelangganModel>(
+                  value: selectedPelanggan,
+                  items: pelangganList.map((PelangganModel pelanggan) {
+                    return DropdownMenuItem<PelangganModel>(
+                      value: pelanggan,
+                      child: Text(pelanggan.nama_pelanggan),
+                    );
+                  }).toList(),
+                  onChanged: (PelangganModel? newValue) {
+                    setState(() {
+                      selectedPelanggan = newValue;
+                      kodePelanggan = newValue?.kode_pelanggan;
+                    });
+                    print(kodePelanggan);
+                  },
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "Pilih Pelanggan",
+                  ),
+                  isExpanded: true,
+                ),
+              ),
+              SizedBox(height: 16.0),
               Text(
                 'Bayar',
                 style: TextStyle(
@@ -191,49 +339,26 @@ class _Pembayaran extends State<Pembayaran> {
                 ],
               ),
               ElevatedButton(
-                style: ButtonStyle(
-                  padding: MaterialStateProperty.all(
-                    EdgeInsets.symmetric(horizontal: 28, vertical: 18),
-                  ),
-                  backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.pressed)) {
-                        return Color.fromARGB(255, 11, 49, 27);
-                      }
-                      return Colors.green;
-                    },
-                  ),
-                  foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                    (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.pressed))
-                        return Colors.black;
-                      return Colors.white;
-                    },
-                  ),
-                  elevation: MaterialStateProperty.resolveWith<double>(
-                    (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.pressed)) return 100;
-                      return 5;
-                    },
-                  ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  textStyle: TextStyle(color: Colors.white),
                 ),
                 onPressed: () {
-                  int totalHarga = widget.totalHarga;
-                  int bayar = int.parse(formatInput(bayarController.text)
-                      .replaceAll(RegExp(r'[^\d]'), ''));
-                  int kembalian = int.parse(
-                      formatInput(kembalianController.text)
-                          .replaceAll(RegExp(r'[^\d]'), ''));
-
-                  if (bayar < totalHarga) {
-                    // Menampilkan notifikasi jika jumlah yang dibayar kurang dari total harga
+                  if (kodePelanggan != null) {
+                    var data = widget.data.map((e) => {
+                          'kodeProduk': e.kodeProduk,
+                          'jumlah': e.jumlah,
+                          'subtotal': e.subtotal
+                        });
+                    pushPenjualan(kodePelanggan!, data.toList());
+                  } else {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
                           title: Text("Peringatan"),
-                          content: Text(
-                              "Jumlah yang dibayar kurang dari total harga."),
+                          content:
+                              Text("Harap pilih pelanggan terlebih dahulu."),
                           actions: [
                             TextButton(
                               child: Text("OK"),
@@ -245,15 +370,9 @@ class _Pembayaran extends State<Pembayaran> {
                         );
                       },
                     );
-                  } else {
-                    // Mengirimkan data ke API jika jumlah yang dibayar cukup
-                    ProduksAPI.postProduct(widget.totalHarga, bayar, kembalian);
                   }
                 },
                 child: Text("Simpan"),
-                // child: Icon(
-                //   Icons.coin,
-                // ),
               ),
             ],
           ),

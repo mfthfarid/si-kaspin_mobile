@@ -1,11 +1,10 @@
-import 'package:kaspin/models/produk_model.dart';
-
 class CartModel {
   final String Kategori;
   final String kodeProduk;
   final String namaProduk;
   final int hargaSatuan;
   final String gambar;
+  final int kode_operator;
   int jumlah;
   int subtotal;
 
@@ -17,5 +16,6 @@ class CartModel {
     required this.jumlah,
     required this.subtotal,
     required this.gambar,
+    required this.kode_operator,
   });
 }

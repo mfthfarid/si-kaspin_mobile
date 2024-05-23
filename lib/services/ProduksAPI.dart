@@ -18,7 +18,14 @@ class ProduksAPI {
     }
   }
 
-  static Future<void> postProduct(int total, int bayar, int kembalian) async {
+  static Future<Map<String, dynamic>?> postProduct(
+    int id,
+    String kodePelanggan,
+    int total,
+    int bayar,
+    int kembalian,
+    List data,
+  ) async {
     try {
       final response = await http.post(
         Uri.parse(ApiConfig.baseUrl + endpoint),
@@ -27,21 +34,23 @@ class ProduksAPI {
           'ngrok-skip-browser-warning': 'true',
         },
         body: jsonEncode(<String, dynamic>{
+          'id': id,
+          'kodePelanggan': kodePelanggan,
           'total': total,
           'bayar': bayar,
-          'kembalian': kembalian
+          'kembalian': kembalian,
+          'detailPenjualan': data
         }),
       );
 
       if (response.statusCode == 200) {
-        print("berhasil ditambahkan");
-        print("Response: ${response.body}");
+        print('Produk ditambahkan: ${response.body}');
+        return jsonDecode(response.body);
       } else {
-        print("Failed to add product. Status code: ${response.statusCode}");
-        print("Response: ${response.body}");
+        return {'status': 'error', 'message': 'Server error: ${response.body}'};
       }
     } catch (e) {
-      print("Error: $e");
+      return {'status': 'error', 'message': 'Exception: $e'};
     }
   }
 }
