@@ -5,7 +5,8 @@ import 'package:kaspin/drawer.dart';
 import 'package:kaspin/models/keranjang_model.dart';
 import 'package:kaspin/models/levelharga_model.dart';
 import 'package:kaspin/services/ProduksAPI.dart';
-import 'package:kaspin/transaksi/keranjang.dart';
+import 'package:kaspin/transaksi/keranjangPenjualan.dart';
+import 'package:kaspin/transaksi/keranjangRetur.dart';
 import 'package:kaspin/models/kategori_model.dart';
 import 'package:kaspin/models/produk_model.dart';
 import 'package:intl/intl.dart';
@@ -72,10 +73,11 @@ class _ReturState extends State<Retur> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Keranjang(keranjang)),
+                MaterialPageRoute(
+                    builder: (context) => KeranjangRetur(keranjang)),
               );
             },
-            tooltip: 'Keranjang',
+            tooltip: 'Keranjang Retur',
           ),
         ],
       ),
@@ -131,7 +133,7 @@ class _ReturState extends State<Retur> {
                         builder: (context) => AlertDialog(
                           title: Row(
                             children: [
-                              Text("Pembelian"),
+                              Text("Pengembalian"),
                               Spacer(),
                               IconButton(
                                 icon: Icon(Icons.close),

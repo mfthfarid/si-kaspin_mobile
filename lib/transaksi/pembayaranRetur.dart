@@ -6,17 +6,17 @@ import 'package:kaspin/models/keranjang_model.dart';
 import 'package:kaspin/models/levelharga_model.dart';
 import 'package:kaspin/models/transaksi_model.dart';
 
-class Pembayaran extends StatefulWidget {
+class PembayaranRetur extends StatefulWidget {
   @override
-  _Pembayaran createState() => _Pembayaran();
+  _PembayaranRetur createState() => _PembayaranRetur();
 }
 
-class _Pembayaran extends State<Pembayaran> {
+class _PembayaranRetur extends State<PembayaranRetur> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Pembayaran"),
+        title: Text("Pengembalian"),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios_rounded,

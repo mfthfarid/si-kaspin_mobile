@@ -7,17 +7,18 @@ import 'package:kaspin/drawer.dart';
 import 'package:kaspin/models/keranjang_model.dart';
 import 'package:kaspin/models/levelharga_model.dart';
 import 'package:kaspin/models/produk_model.dart';
-import 'package:kaspin/transaksi/pembayaran.dart';
+import 'package:kaspin/transaksi/pembayaranBeli.dart';
+import 'package:kaspin/transaksi/pembayaranRetur.dart';
 
-class Keranjang extends StatefulWidget {
+class KeranjangRetur extends StatefulWidget {
   final List<CartModel> cartItems;
-  Keranjang(this.cartItems);
+  KeranjangRetur(this.cartItems);
 
   @override
-  _KeranjangState createState() => _KeranjangState();
+  _KeranjangReturState createState() => _KeranjangReturState();
 }
 
-class _KeranjangState extends State<Keranjang> {
+class _KeranjangReturState extends State<KeranjangRetur> {
   late int totalHarga;
 
   @override
@@ -44,7 +45,7 @@ class _KeranjangState extends State<Keranjang> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Keranjang"),
+        title: Text("Keranjang Retur"),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios_rounded,
@@ -60,7 +61,7 @@ class _KeranjangState extends State<Keranjang> {
         child: ListView.builder(
           itemCount: widget.cartItems.length,
           itemBuilder: (context, index) {
-            CartModel keranjang = widget.cartItems[index];
+            CartModel KeranjangRetur = widget.cartItems[index];
             return ListTile(
               leading: Container(
                 width: 80,
@@ -157,7 +158,7 @@ class _KeranjangState extends State<Keranjang> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => Pembayaran()),
+                    MaterialPageRoute(builder: (context) => PembayaranRetur()),
                   );
                 },
                 child: Text(

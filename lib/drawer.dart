@@ -108,7 +108,7 @@ class _MyDrawer extends State<MyDrawer> {
                 Icons.restore_page_outlined,
                 color: Colors.white,
               ),
-              title: Text("Retur"),
+              title: Text("Retur Penjualan"),
               textColor: Color.fromARGB(255, 56, 157, 66),
             ),
             Expanded(
@@ -117,11 +117,11 @@ class _MyDrawer extends State<MyDrawer> {
                 child: ListTile(
                   onTap: () {
                     _onItemTapped(3);
-                    logout(context);
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => ),
-                    // );
+                    // logout(context);
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                    );
                   },
                   selected: selectedIndex == 2,
                   // titleAlignment: Alignment.bottomCenter,
@@ -141,7 +141,7 @@ class _MyDrawer extends State<MyDrawer> {
   }
 }
 
-void logout(BuildContext context) {
-  Navigator.pushReplacement(
-      context, MaterialPageRoute(builder: (context) => LoginPage()));
-}
+// void logout(BuildContext context) {
+//   Navigator.pushReplacement(
+//       context, MaterialPageRoute(builder: (context) => LoginPage()));
+// }
