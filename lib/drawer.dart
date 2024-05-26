@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:kaspin/menu/penjualan.dart';
 import 'package:kaspin/menu/retur.dart';
 import 'package:kaspin/login/login.dart';
+import 'package:kaspin/models/user_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyDrawer extends StatefulWidget {
-  const MyDrawer({Key? key}) : super(key: key);
+  const MyDrawer({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _MyDrawer createState() => _MyDrawer();
@@ -12,11 +16,39 @@ class MyDrawer extends StatefulWidget {
 
 class _MyDrawer extends State<MyDrawer> {
   int selectedIndex = 0;
+  UserModel? loggedInUser;
 
-  void _onItemTapped(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    UserModel? user = await getUserData();
+  }
+
+  Future<UserModel?> getUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? idString = prefs.getString('id');
+    final String? nama = prefs.getString('nama');
+    final String? role = prefs.getString('role');
+
+    // if (nama != null && role != null && idString != null) {
+    //   int id = int.parse(idString);
+    //   return UserModel(id: id, nama: nama, role: role);
+    // }
+    // return null;
+  }
+
+  Future<String?> getUserName() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('nama');
+  }
+
+  Future<String?> getUserRole() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('role');
   }
 
   @override
@@ -54,19 +86,81 @@ class _MyDrawer extends State<MyDrawer> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              "Bintang Malindo",
-                              style: TextStyle(
-                                  fontFamily: "Poppins",
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white),
+                            FutureBuilder<String?>(
+                              future: getUserName(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<String?> snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return CircularProgressIndicator();
+                                } else if (snapshot.hasError) {
+                                  return Text(
+                                    "Error",
+                                    style: TextStyle(
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                  );
+                                } else if (snapshot.hasData &&
+                                    snapshot.data != null) {
+                                  return Text(
+                                    snapshot.data!,
+                                    style: TextStyle(
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                  );
+                                } else {
+                                  return Text(
+                                    "Nama tidak ditemukan",
+                                    style: TextStyle(
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                  );
+                                }
+                              },
                             ),
-                            Text(
-                              "Operator",
-                              style: TextStyle(
-                                  fontFamily: "Poppins",
-                                  fontSize: 11,
-                                  color: Color(0xFFB8B8B8)),
+                            FutureBuilder<String?>(
+                              future: getUserRole(),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<String?> snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return CircularProgressIndicator();
+                                } else if (snapshot.hasError) {
+                                  return Text(
+                                    "Error",
+                                    style: TextStyle(
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                  );
+                                } else if (snapshot.hasData &&
+                                    snapshot.data != null) {
+                                  return Text(
+                                    snapshot.data!,
+                                    style: TextStyle(
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                  );
+                                } else {
+                                  return Text(
+                                    "Nama tidak ditemukan",
+                                    style: TextStyle(
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white,
+                                    ),
+                                  );
+                                }
+                              },
                             ),
                           ],
                         ),
@@ -78,59 +172,70 @@ class _MyDrawer extends State<MyDrawer> {
             ),
             SizedBox(height: 20), // Spasi antara header dan menu
             ListTile(
+              selected: selectedIndex == 1,
+              leading: Icon(
+                Icons.money_rounded,
+                color: selectedIndex == 1 ? Colors.green : Colors.white,
+              ),
+              title: Text(
+                "Penjualan",
+                style: TextStyle(
+                    color: selectedIndex == 1
+                        ? Colors.white
+                        : Color.fromARGB(255, 56, 157, 66)),
+              ),
+              // textColor: Color.fromARGB(255, 56, 157, 66),
               onTap: () {
-                _onItemTapped(1);
+                // _onItemTapped(1);
+                setState(() {
+                  selectedIndex = 1;
+                });
                 Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Penjualan()),
                 );
               },
-              selected: selectedIndex == 1,
-              leading: Icon(
-                Icons.money_rounded,
-                color: Colors.white,
-              ),
-              title: Text("Penjualan"),
-              textColor: Color.fromARGB(255, 56, 157, 66),
             ),
             ListTile(
-              onTap: () {
-                _onItemTapped(2);
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Retur()),
-                );
-              },
               selected: selectedIndex == 2,
               leading: Icon(
                 Icons.restore_page_outlined,
                 color: Colors.white,
               ),
-              title: Text("Retur"),
+              title: Text("Retur Penjualan"),
               textColor: Color.fromARGB(255, 56, 157, 66),
+              onTap: () {
+                // _onItemTapped(2);
+                setState(() {
+                  selectedIndex = 2;
+                });
+
+                // Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Retur()),
+                );
+              },
             ),
             Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: ListTile(
-                  onTap: () {
-                    _onItemTapped(3);
-                    logout(context);
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => ),
-                    // );
-                  },
-                  selected: selectedIndex == 2,
-                  // titleAlignment: Alignment.bottomCenter,
+                  selected: selectedIndex == 3,
                   leading: Icon(
                     Icons.logout_outlined,
                     color: Colors.white,
                   ),
                   title: Text("Log Out"),
                   textColor: Color.fromARGB(255, 56, 157, 66),
+                  onTap: () {
+                    // _onItemTapped(3);
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginPage()),
+                    );
+                  },
                 ),
               ),
             ),
@@ -139,9 +244,4 @@ class _MyDrawer extends State<MyDrawer> {
       ),
     );
   }
-}
-
-void logout(BuildContext context) {
-  Navigator.pushReplacement(
-      context, MaterialPageRoute(builder: (context) => LoginPage()));
 }

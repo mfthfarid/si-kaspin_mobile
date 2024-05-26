@@ -9,13 +9,13 @@ import 'package:kaspin/services/ProduksAPI.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class Pembayaran extends StatefulWidget {
+class PembayaranJual extends StatefulWidget {
   final int totalHarga;
   final List<CartModel> data;
   // final String kodeProduk;
   // final int jumlah;
   // final int subtotal;
-  Pembayaran({
+  PembayaranJual({
     required this.totalHarga,
     required this.data,
     // required this.kodeProduk,
@@ -27,7 +27,7 @@ class Pembayaran extends StatefulWidget {
   _Pembayaran createState() => _Pembayaran();
 }
 
-class _Pembayaran extends State<Pembayaran> {
+class _Pembayaran extends State<PembayaranJual> {
   ProduksAPI produksAPI = ProduksAPI();
   PelangganAPI pelangganAPI = PelangganAPI();
   TextEditingController bayarController = TextEditingController();
@@ -184,7 +184,13 @@ class _Pembayaran extends State<Pembayaran> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Pembayaran"),
+        title: Text(
+          "Pembayaran",
+          style: TextStyle(
+            fontSize: 23,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios_rounded,
@@ -199,130 +205,135 @@ class _Pembayaran extends State<Pembayaran> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Pilih Pelanggan',
-                style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 8.0),
-              Container(
-                width: double.infinity,
-                height: 50.0,
-                child: DropdownButtonFormField<PelangganModel>(
-                  value: selectedPelanggan,
-                  items: pelangganList.map((PelangganModel pelanggan) {
-                    return DropdownMenuItem<PelangganModel>(
-                      value: pelanggan,
-                      child: Text(pelanggan.nama_pelanggan),
-                    );
-                  }).toList(),
-                  onChanged: (PelangganModel? newValue) {
-                    setState(() {
-                      selectedPelanggan = newValue;
-                      kodePelanggan = newValue?.kode_pelanggan;
-                    });
-                    print(kodePelanggan);
-                  },
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Pilih Pelanggan",
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Pilih Pelanggan',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
                   ),
-                  isExpanded: true,
                 ),
-              ),
-              SizedBox(height: 16.0),
-              Text(
-                'Bayar',
-                style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 8.0),
-              Container(
-                width: double.infinity,
-                height: 50.0,
-                padding: EdgeInsets.symmetric(horizontal: 12.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                  border: Border.all(color: Colors.grey),
-                  color: Colors.white,
-                ),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: TextFormField(
-                    controller: bayarController,
+                SizedBox(height: 8.0),
+                Container(
+                  width: double.infinity,
+                  height: 50.0,
+                  child: DropdownButtonFormField<PelangganModel>(
+                    value: selectedPelanggan,
+                    items: pelangganList.map((PelangganModel pelanggan) {
+                      return DropdownMenuItem<PelangganModel>(
+                        value: pelanggan,
+                        child: Text(pelanggan.nama_pelanggan),
+                      );
+                    }).toList(),
+                    onChanged: (PelangganModel? newValue) {
+                      setState(() {
+                        selectedPelanggan = newValue;
+                        kodePelanggan = newValue?.kode_pelanggan;
+                      });
+                      print(kodePelanggan);
+                    },
                     decoration: InputDecoration(
-                      border: InputBorder.none,
-                      isDense: true,
-                      contentPadding: EdgeInsets.symmetric(vertical: 8.0),
-                      hintText: "Rp ",
+                      border: OutlineInputBorder(),
+                      hintText: "Pilih Pelanggan",
                     ),
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                      TextInputFormatter.withFunction((oldValue, newValue) {
-                        String formattedText = formatInput(newValue.text);
-                        return TextEditingValue(
-                          text: formattedText,
-                          selection: TextSelection.collapsed(
-                              offset: formattedText.length),
-                        );
-                      }),
-                    ],
+                    isExpanded: true,
                   ),
                 ),
-              ),
-              SizedBox(height: 16.0),
-              Text(
-                'Kembalian',
-                style: TextStyle(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              SizedBox(height: 8.0),
-              Container(
-                width: double.infinity,
-                height: 50.0,
-                padding: EdgeInsets.symmetric(horizontal: 12.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                  border: Border.all(color: Colors.grey),
-                  color: Colors.white,
-                ),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: TextFormField(
-                    controller: kembalianController,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      isDense: true,
-                      contentPadding: EdgeInsets.symmetric(vertical: 8.0),
-                      hintText: "Rp ",
-                    ),
-                    keyboardType: TextInputType.number,
-                    readOnly: true,
+                SizedBox(height: 16.0),
+                Text(
+                  'Bayar',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
-            ],
+                SizedBox(height: 8.0),
+                Container(
+                  width: double.infinity,
+                  height: 50.0,
+                  padding: EdgeInsets.symmetric(horizontal: 12.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    border: Border.all(color: Colors.grey),
+                    color: Colors.white,
+                  ),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextFormField(
+                      controller: bayarController,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        isDense: true,
+                        contentPadding: EdgeInsets.symmetric(vertical: 8.0),
+                        hintText: "Rp ",
+                      ),
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        TextInputFormatter.withFunction((oldValue, newValue) {
+                          String formattedText = formatInput(newValue.text);
+                          return TextEditingValue(
+                            text: formattedText,
+                            selection: TextSelection.collapsed(
+                                offset: formattedText.length),
+                          );
+                        }),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(height: 16.0),
+                Text(
+                  'Kembalian',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(height: 8.0),
+                Container(
+                  width: double.infinity,
+                  height: 50.0,
+                  padding: EdgeInsets.symmetric(horizontal: 12.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    border: Border.all(color: Colors.grey),
+                    color: Colors.white,
+                  ),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextFormField(
+                      controller: kembalianController,
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        isDense: true,
+                        contentPadding: EdgeInsets.symmetric(vertical: 8.0),
+                        hintText: "Rp ",
+                      ),
+                      keyboardType: TextInputType.number,
+                      readOnly: true,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        child: Padding(
+        height: 80,
+        color: Color.fromARGB(255, 194, 194, 194),
+        child: Container(
           padding: const EdgeInsets.all(5.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'Total Harga:',
@@ -339,9 +350,27 @@ class _Pembayaran extends State<Pembayaran> {
                 ],
               ),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  textStyle: TextStyle(color: Colors.white),
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all(
+                      EdgeInsets.symmetric(horizontal: 20, vertical: 18)),
+                  backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                      (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.pressed)) {
+                      return Color.fromARGB(255, 11, 49, 27);
+                    }
+                    return Colors.green;
+                  }),
+                  foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                      (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.pressed))
+                      return Colors.black;
+                    return Colors.white;
+                  }),
+                  elevation: MaterialStateProperty.resolveWith<double>(
+                      (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.pressed)) return 100;
+                    return 5;
+                  }),
                 ),
                 onPressed: () {
                   if (kodePelanggan != null) {
@@ -372,7 +401,18 @@ class _Pembayaran extends State<Pembayaran> {
                     );
                   }
                 },
-                child: Text("Simpan"),
+                child: Row(
+                  children: [
+                    Icon(Icons.attach_money_rounded),
+                    Text(
+                      "Simpan",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

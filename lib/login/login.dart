@@ -9,10 +9,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   @override
-  _LoginState createState() => _LoginState();
+  _LoginPage createState() => _LoginPage();
 }
 
-class _LoginState extends State<LoginPage> {
+class _LoginPage extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -76,105 +76,168 @@ class _LoginState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Mengambil informasi ukuran layar
+    var mediaQueryData = MediaQuery.of(context);
+    var screenHeight = mediaQueryData.size.height;
+    var screenWidth = mediaQueryData.size.width;
+
+    // Menentukan ukuran padding dan margin berdasarkan ukuran layar
+    var horizontalPadding = screenWidth * 0.05;
+    var containerPadding = screenWidth * 0.05;
+
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                child: Image.asset(
-                  'data/kasir2.jpg',
-                  fit: BoxFit.contain,
-                ),
-              ),
-              SizedBox(
-                  height: 20.0), // Add space between the image and the text
-              Text(
-                "Selamat Datang",
-                style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 10.0), // Add space between the texts
-              Text(
-                "Mari awali hari dengan Bismillah",
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 30.0), // Add space before the form container
-              Container(
-                padding: EdgeInsets.all(20.0),
-                margin: EdgeInsets.symmetric(horizontal: 20.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10.0),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
-                      spreadRadius: 3,
-                      blurRadius: 5,
-                      offset: Offset(0, 3),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return Container(
+              height: constraints.maxHeight,
+              padding: EdgeInsets.all(30),
+              child: Column(
+                children: [
+                  // Container Gambar dan Teks
+                  Expanded(
+                    flex: 60,
+                    // fit: FlexFit.tight,
+                    child: Container(
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            'data/kasir2.jpg',
+                            fit: BoxFit.contain,
+                            width: screenWidth * 0.8,
+                            height: constraints.maxHeight * 0.3,
+                          ),
+                          SizedBox(
+                            height: constraints.maxHeight * 0.02,
+                          ),
+                          Text(
+                            "Selamat Datang",
+                            style: TextStyle(
+                              fontSize: screenWidth * 0.07,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(
+                            height: constraints.maxHeight *
+                                0.01, // Ruang antara teks
+                          ),
+                          Text(
+                            "Mari awali hari dengan Bismillah",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize:
+                                  screenWidth * 0.045, // Ukuran font responsif
+                            ),
+                          ),
+                          // SizedBox(
+                          //   height: constraints.maxHeight *
+                          //       0.03, // Ruang sebelum container form
+                          // ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    TextField(
-                      controller: _usernameController,
-                      decoration: InputDecoration(labelText: 'Username'),
-                    ),
-                    SizedBox(height: 20.0),
-                    TextField(
-                      controller: _passwordController,
-                      decoration: InputDecoration(labelText: 'Password'),
-                      obscureText: true,
-                    ),
-                    SizedBox(height: 20.0),
-                    ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.resolveWith<Color>(
-                          (Set<MaterialState> states) {
-                            if (states.contains(MaterialState.pressed)) {
-                              return Color.fromARGB(255, 11, 49, 27);
-                            }
-                            return Colors.green;
-                          },
+                  ),
+                  // Container Form Login
+                  Expanded(
+                    flex: 40,
+                    child: Container(
+                      alignment: Alignment.topCenter,
+                      child: Container(
+                        width: double.infinity,
+                        height: 220,
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                        margin:
+                            EdgeInsets.symmetric(horizontal: horizontalPadding),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.3),
+                              spreadRadius: 3,
+                              blurRadius: 5,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
                         ),
-                        foregroundColor:
-                            MaterialStateProperty.resolveWith<Color>(
-                          (Set<MaterialState> states) {
-                            if (states.contains(MaterialState.pressed))
-                              return Colors.black;
-                            return Colors.white; // Warna default
-                          },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            TextField(
+                              controller: _usernameController,
+                              decoration:
+                                  InputDecoration(labelText: 'Username'),
+                            ),
+                            SizedBox(height: 5),
+                            TextField(
+                              controller: _passwordController,
+                              decoration:
+                                  InputDecoration(labelText: 'Password'),
+                              obscureText: true,
+                            ),
+                            SizedBox(height: 30),
+                            ElevatedButton(
+                              style: ButtonStyle(
+                                fixedSize: MaterialStateProperty.all<Size>(
+                                    Size(50, 30)),
+                                backgroundColor:
+                                    MaterialStateProperty.resolveWith<Color>(
+                                  (Set<MaterialState> states) {
+                                    if (states
+                                        .contains(MaterialState.pressed)) {
+                                      return Color.fromARGB(255, 11, 49, 27);
+                                    }
+                                    return Colors.green;
+                                  },
+                                ),
+                                foregroundColor:
+                                    MaterialStateProperty.resolveWith<Color>(
+                                  (Set<MaterialState> states) {
+                                    if (states.contains(MaterialState.pressed))
+                                      return Colors.black;
+                                    return Colors.white; // Warna default
+                                  },
+                                ),
+                              ),
+                              onPressed: () {
+                                fungsiLogin();
+                                // String username = _usernameController.text;
+                                // String password = _passwordController.text;
+
+                                // if (username == 'admin' &&
+                                //     password == 'admin123') {
+                                //   Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) => Penjualan()),
+                                //   );
+                                // } else {
+                                //   ScaffoldMessenger.of(context).showSnackBar(
+                                //     SnackBar(
+                                //       content:
+                                //           Text('Username atau password salah.'),
+                                //       backgroundColor: Colors.red,
+                                //     ),
+                                //   );
+                                // }
+                              },
+                              child:
+                                  Text('Login', style: TextStyle(fontSize: 23)),
+                            ),
+                          ],
                         ),
                       ),
-                      onPressed: () {
-                        fungsiLogin();
-                        // if (username == 'admin' && password == 'admin123') {
-                        //   Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => Penjualan()),
-                        //   );
-                        // } else {
-                        //   // Jika autentikasi gagal, tampilkan pesan kesalahan
-                        //   ScaffoldMessenger.of(context).showSnackBar(
-                        //     SnackBar(
-                        //       content: Text('Username atau password salah.'),
-                        //       backgroundColor: Colors.red,
-                        //     ),
-                        //   );
-                        // }
-                      },
-                      child: Text('Login'),
                     ),
-                  ],
-                ),
+                  ),
+
+                  // SizedBox(
+                  //     height: constraints.maxHeight *
+                  //         0.02), // Ruang antara form dan bawah layar
+                ],
               ),
-              // SizedBox(height: 30.0),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
