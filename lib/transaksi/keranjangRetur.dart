@@ -7,7 +7,7 @@ import 'package:kaspin/drawer.dart';
 import 'package:kaspin/models/keranjang_model.dart';
 import 'package:kaspin/models/levelharga_model.dart';
 import 'package:kaspin/models/produk_model.dart';
-import 'package:kaspin/transaksi/pembayaranBeli.dart';
+import 'package:kaspin/transaksi/pembayaranJual.dart';
 import 'package:kaspin/transaksi/pembayaranRetur.dart';
 
 class KeranjangRetur extends StatefulWidget {
@@ -43,9 +43,19 @@ class _KeranjangReturState extends State<KeranjangRetur> {
 
   @override
   Widget build(BuildContext context) {
+    var mediaQueryData = MediaQuery.of(context);
+    var screenHeight = mediaQueryData.size.height;
+    var screenWidth = mediaQueryData.size.width;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Keranjang Retur"),
+        title: Text(
+          "Keranjang Retur",
+          style: TextStyle(
+            fontSize: 23,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios_rounded,
@@ -59,6 +69,7 @@ class _KeranjangReturState extends State<KeranjangRetur> {
       ),
       body: SafeArea(
         child: ListView.builder(
+          scrollDirection: Axis.vertical,
           itemCount: widget.cartItems.length,
           itemBuilder: (context, index) {
             CartModel KeranjangRetur = widget.cartItems[index];
@@ -110,13 +121,17 @@ class _KeranjangReturState extends State<KeranjangRetur> {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        child: Padding(
+        height: 80,
+        color: Color.fromARGB(255, 194, 194, 194),
+        child: Container(
+          alignment: Alignment.center,
           padding: const EdgeInsets.all(5.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'Total Harga:',
@@ -138,6 +153,9 @@ class _KeranjangReturState extends State<KeranjangRetur> {
                       EdgeInsets.symmetric(horizontal: 28, vertical: 18)),
                   backgroundColor: MaterialStateProperty.resolveWith<Color>(
                       (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.disabled)) {
+                      return Colors.red;
+                    }
                     if (states.contains(MaterialState.pressed)) {
                       return Color.fromARGB(255, 11, 49, 27);
                     }

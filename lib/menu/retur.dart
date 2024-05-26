@@ -1,15 +1,13 @@
-import 'dart:js_interop';
-
 import 'package:flutter/material.dart';
 import 'package:kaspin/drawer.dart';
 import 'package:kaspin/models/keranjang_model.dart';
 import 'package:kaspin/models/levelharga_model.dart';
 import 'package:kaspin/services/ProduksAPI.dart';
-import 'package:kaspin/transaksi/keranjangPenjualan.dart';
 import 'package:kaspin/transaksi/keranjangRetur.dart';
 import 'package:kaspin/models/kategori_model.dart';
 import 'package:kaspin/models/produk_model.dart';
 import 'package:intl/intl.dart';
+import 'package:kaspin/transaksi/keranjangRetur.dart';
 
 class Retur extends StatefulWidget {
   const Retur({
@@ -63,7 +61,13 @@ class _ReturState extends State<Retur> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Retur"),
+        title: Text(
+          "Retur",
+          style: TextStyle(
+            fontSize: 23,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         actions: [
           IconButton(
             icon: Icon(
@@ -133,7 +137,7 @@ class _ReturState extends State<Retur> {
                         builder: (context) => AlertDialog(
                           title: Row(
                             children: [
-                              Text("Pengembalian"),
+                              Text("Pembelian"),
                               Spacer(),
                               IconButton(
                                 icon: Icon(Icons.close),
@@ -235,19 +239,19 @@ class _ReturState extends State<Retur> {
                                           subtotal;
                                     });
                                   } else {
-                                    CartModel cartItem = CartModel(
-                                      Kategori: product.kategori.nama_kategori,
-                                      kodeProduk: product.kode_produk,
-                                      namaProduk: product.nama_produk,
-                                      jumlah: jumlah,
-                                      hargaSatuan: harga,
-                                      subtotal: subtotal,
-                                      gambar: product.gambar,
-                                    );
+                                    // CartModel cartItem = CartModel(
+                                    //     Kategori:
+                                    //         product.kategori.nama_kategori,
+                                    //     kodeProduk: product.kode_produk,
+                                    //     namaProduk: product.nama_produk,
+                                    //     jumlah: jumlah,
+                                    //     hargaSatuan: harga,
+                                    //     subtotal: subtotal,
+                                    //     gambar: product.gambar);
 
-                                    setState(() {
-                                      keranjang.add(cartItem);
-                                    });
+                                    // setState(() {
+                                    //   keranjang.add(cartItem);
+                                    // });
                                   }
 
                                   Navigator.of(context).pop();

@@ -1,14 +1,16 @@
-import 'dart:js_interop';
+// import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:kaspin/drawer.dart';
 import 'package:kaspin/models/keranjang_model.dart';
 import 'package:kaspin/models/levelharga_model.dart';
+import 'package:kaspin/models/user_model.dart';
 import 'package:kaspin/services/ProduksAPI.dart';
 import 'package:kaspin/transaksi/keranjangPenjualan.dart';
-import 'package:kaspin/models/kategori_model.dart';
 import 'package:kaspin/models/produk_model.dart';
 import 'package:intl/intl.dart';
+import 'package:kaspin/transaksi/keranjangPenjualan.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Penjualan extends StatefulWidget {
   const Penjualan({
@@ -39,6 +41,32 @@ class _PenjualanState extends State<Penjualan> {
     }
   }
 
+  Future<void> createCartItem(
+      ProductModel product, int jumlah, int harga, int subtotal) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? id = prefs.getInt('id');
+
+    if (id != null) {
+      CartModel cartItem = CartModel(
+        Kategori: product.kategori.nama_kategori,
+        kodeProduk: product.kode_produk,
+        namaProduk: product.nama_produk,
+        jumlah: jumlah,
+        hargaSatuan: harga,
+        subtotal: subtotal,
+        gambar: product.gambar,
+        kode_operator: id, // Mengkonversi id ke String jika perlu
+      );
+
+      setState(() {
+        keranjang.add(cartItem);
+      });
+    } else {
+      print('No user ID found.');
+      // Tangani kasus di mana id tidak ditemukan
+    }
+  }
+
   String formatRupiah(int amount) {
     final formatter =
         NumberFormat.currency(locale: 'id_ID', symbol: 'Rp', decimalDigits: 0);
@@ -60,9 +88,19 @@ class _PenjualanState extends State<Penjualan> {
 
   @override
   Widget build(BuildContext context) {
+    var mediaQueryData = MediaQuery.of(context);
+    var screenHeight = mediaQueryData.size.height;
+    var screenWidth = mediaQueryData.size.width;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Penjualan"),
+        title: Text(
+          "Penjualan",
+          style: TextStyle(
+            fontSize: 23,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         actions: [
           IconButton(
             icon: Icon(
@@ -72,7 +110,8 @@ class _PenjualanState extends State<Penjualan> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Keranjang(keranjang)),
+                MaterialPageRoute(
+                    builder: (context) => keranjangPenjualan(keranjang)),
               );
             },
             tooltip: 'Keranjang',
@@ -212,7 +251,27 @@ class _PenjualanState extends State<Penjualan> {
                           ),
                           actions: [
                             TextButton(
-                              onPressed: () {
+                              style: ButtonStyle(
+                                overlayColor:
+                                    MaterialStateProperty.resolveWith<Color>(
+                                        (Set<MaterialState> states) {
+                                  if (states.contains(MaterialState.pressed)) {
+                                    return Color.fromARGB(255, 11, 49, 27);
+                                  }
+                                  return Colors.green;
+                                }),
+                                padding: MaterialStateProperty.all<
+                                    EdgeInsetsGeometry>(
+                                  EdgeInsets.all(16.0),
+                                ),
+                                shape:
+                                    MaterialStateProperty.all<OutlinedBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                ),
+                              ),
+                              onPressed: () async {
                                 if (selectedLevelHarga != null &&
                                     jumlahController.text.isNotEmpty) {
                                   int jumlah = int.parse(jumlahController.text);
@@ -233,19 +292,8 @@ class _PenjualanState extends State<Penjualan> {
                                           subtotal;
                                     });
                                   } else {
-                                    CartModel cartItem = CartModel(
-                                      Kategori: product.kategori.nama_kategori,
-                                      kodeProduk: product.kode_produk,
-                                      namaProduk: product.nama_produk,
-                                      jumlah: jumlah,
-                                      hargaSatuan: harga,
-                                      subtotal: subtotal,
-                                      gambar: product.gambar,
-                                    );
-
-                                    setState(() {
-                                      keranjang.add(cartItem);
-                                    });
+                                    await createCartItem(
+                                        product, jumlah, harga, subtotal);
                                   }
 
                                   Navigator.of(context).pop();
@@ -257,7 +305,12 @@ class _PenjualanState extends State<Penjualan> {
                                   );
                                 }
                               },
-                              child: Text('Tambah'),
+                              child: Text(
+                                'Tambah',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
                             )
                           ],
                         ),

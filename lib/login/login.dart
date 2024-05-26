@@ -1,9 +1,78 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:kaspin/menu/penjualan.dart';
+import 'package:kaspin/models/user_model.dart';
+import 'package:http/http.dart' as http;
+import 'package:kaspin/services/ApiConfig.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPage createState() => _LoginPage();
+}
+
+class _LoginPage extends State<LoginPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  void fungsiLogin() async {
+    String username = _usernameController.text;
+    String password = _passwordController.text;
+
+    try {
+      const endpoint = '/login';
+      var response = await http.post(
+        Uri.parse(ApiConfig.baseUrl + endpoint),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'username': username, 'password': password}),
+      );
+
+      if (response.statusCode == 200) {
+        var jsonResponse = jsonDecode(response.body);
+        if (jsonResponse['status'] == 'success') {
+          UserModel user = UserModel.fromJson(jsonResponse['user']);
+          print('Login berhasil: ${user.nama}');
+          print('Data pengguna: ${jsonResponse['user']}');
+
+          // Simpan data pengguna ke SharedPreferences
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setInt('id', user.id);
+          await prefs.setString('username', user.username);
+          await prefs.setString('nama', user.nama);
+          await prefs.setString('role', user.role);
+          // Simpan data lain yang diperlukan
+
+          if (user.role == 'pegawai') {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Login berhasil')),
+            );
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => Penjualan()),
+            );
+          } else {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Username atau password salah')),
+            );
+          }
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Username atau password salah')),
+          );
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Gagal menghubungi server')),
+        );
+      }
+    } catch (e) {
+      print('Error: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Terjadi kesalahan')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,20 +104,16 @@ class LoginPage extends StatelessWidget {
                           Image.asset(
                             'data/kasir2.jpg',
                             fit: BoxFit.contain,
-                            width: screenWidth *
-                                0.8, // Mengatur lebar gambar responsif
-                            height: constraints.maxHeight *
-                                0.3, // Tinggi gambar responsif
+                            width: screenWidth * 0.8,
+                            height: constraints.maxHeight * 0.3,
                           ),
                           SizedBox(
-                            height: constraints.maxHeight *
-                                0.02, // Ruang antara gambar dan teks
+                            height: constraints.maxHeight * 0.02,
                           ),
                           Text(
                             "Selamat Datang",
                             style: TextStyle(
-                              fontSize:
-                                  screenWidth * 0.07, // Ukuran font responsif
+                              fontSize: screenWidth * 0.07,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -136,25 +201,26 @@ class LoginPage extends StatelessWidget {
                                 ),
                               ),
                               onPressed: () {
-                                String username = _usernameController.text;
-                                String password = _passwordController.text;
+                                fungsiLogin();
+                                // String username = _usernameController.text;
+                                // String password = _passwordController.text;
 
-                                if (username == 'admin' &&
-                                    password == 'admin123') {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Penjualan()),
-                                  );
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content:
-                                          Text('Username atau password salah.'),
-                                      backgroundColor: Colors.red,
-                                    ),
-                                  );
-                                }
+                                // if (username == 'admin' &&
+                                //     password == 'admin123') {
+                                //   Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (context) => Penjualan()),
+                                //   );
+                                // } else {
+                                //   ScaffoldMessenger.of(context).showSnackBar(
+                                //     SnackBar(
+                                //       content:
+                                //           Text('Username atau password salah.'),
+                                //       backgroundColor: Colors.red,
+                                //     ),
+                                //   );
+                                // }
                               },
                               child:
                                   Text('Login', style: TextStyle(fontSize: 23)),

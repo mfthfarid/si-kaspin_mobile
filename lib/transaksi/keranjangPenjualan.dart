@@ -1,29 +1,26 @@
-import 'dart:convert';
-import 'dart:js_util';
 import 'package:flutter/material.dart';
-import 'package:kaspin/components/item.dart';
-import 'package:kaspin/components/produksi.dart';
-import 'package:kaspin/drawer.dart';
 import 'package:kaspin/models/keranjang_model.dart';
-import 'package:kaspin/models/levelharga_model.dart';
-import 'package:kaspin/models/produk_model.dart';
-import 'package:kaspin/transaksi/pembayaranBeli.dart';
+import 'package:kaspin/transaksi/pembayaranJual.dart';
 
-class Keranjang extends StatefulWidget {
+class keranjangPenjualan extends StatefulWidget {
   final List<CartModel> cartItems;
-  Keranjang(this.cartItems);
+  keranjangPenjualan(this.cartItems);
 
   @override
   _KeranjangState createState() => _KeranjangState();
 }
 
-class _KeranjangState extends State<Keranjang> {
+class _KeranjangState extends State<keranjangPenjualan> {
   late int totalHarga;
+  late String kodeProduk;
+  late int jumlah;
+  late int subtotal;
 
   @override
   void initState() {
     super.initState();
     updateTotalHarga();
+    getProduk();
   }
 
   void updateTotalHarga() {
@@ -36,15 +33,42 @@ class _KeranjangState extends State<Keranjang> {
     });
   }
 
+  void clearCart() {
+    setState(() {
+      widget.cartItems.clear();
+      totalHarga = 0;
+    });
+  }
+
+  void getProduk() {
+    for (var cartItem in widget.cartItems) {
+      setState(() {
+        kodeProduk = cartItem.kodeProduk;
+        jumlah = cartItem.jumlah;
+        subtotal = cartItem.subtotal;
+      });
+    }
+  }
+
   String formatRupiah(String nominal) {
     return 'Rp. ${nominal.replaceAllMapped(RegExp(r'(\d)(?=(\d{3})+(?!\d))'), (Match m) => '${m[1]}.')}';
   }
 
   @override
   Widget build(BuildContext context) {
+    var mediaQueryData = MediaQuery.of(context);
+    var screenHeight = mediaQueryData.size.height;
+    var screenWidth = mediaQueryData.size.width;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Keranjang"),
+        title: Text(
+          "Keranjang",
+          style: TextStyle(
+            fontSize: 23,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios_rounded,
@@ -58,6 +82,7 @@ class _KeranjangState extends State<Keranjang> {
       ),
       body: SafeArea(
         child: ListView.builder(
+          scrollDirection: Axis.vertical,
           itemCount: widget.cartItems.length,
           itemBuilder: (context, index) {
             CartModel keranjang = widget.cartItems[index];
@@ -109,17 +134,24 @@ class _KeranjangState extends State<Keranjang> {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        child: Padding(
+        height: 80,
+        color: Color.fromARGB(255, 194, 194, 194),
+        child: Container(
           padding: const EdgeInsets.all(5.0),
+          alignment: Alignment.center,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'Total Harga:',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   Text(
                     formatRupiah(totalHarga.toString()),
@@ -137,6 +169,9 @@ class _KeranjangState extends State<Keranjang> {
                       EdgeInsets.symmetric(horizontal: 28, vertical: 18)),
                   backgroundColor: MaterialStateProperty.resolveWith<Color>(
                       (Set<MaterialState> states) {
+                    if (states.contains(MaterialState.disabled)) {
+                      return Colors.red;
+                    }
                     if (states.contains(MaterialState.pressed)) {
                       return Color.fromARGB(255, 11, 49, 27);
                     }
@@ -154,12 +189,22 @@ class _KeranjangState extends State<Keranjang> {
                     return 5;
                   }),
                 ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => PembayaranBeli()),
-                  );
-                },
+                onPressed: totalHarga > 0
+                    ? () async {
+                        final result = await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PembayaranJual(
+                                    totalHarga: totalHarga,
+                                    data: widget.cartItems,
+                                  )),
+                        );
+
+                        if (result == true) {
+                          clearCart();
+                        }
+                      }
+                    : null,
                 child: Text(
                   "Lanjutkan",
                   style: TextStyle(
