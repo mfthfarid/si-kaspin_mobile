@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:kaspin/drawer.dart';
+import 'package:kaspin/models/keranjang1_model.dart';
 import 'package:kaspin/models/keranjang_model.dart';
 import 'package:kaspin/models/levelharga_model.dart';
 import 'package:kaspin/services/ProduksAPI.dart';
 import 'package:kaspin/transaksi/keranjangRetur.dart';
 import 'package:kaspin/models/produk_model.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Retur extends StatefulWidget {
   const Retur({
@@ -23,7 +25,7 @@ class _ReturState extends State<Retur> {
   TextEditingController subtotalController = TextEditingController();
   TextEditingController hargaController = TextEditingController();
   LevelHargaModel? selectedLevelHarga;
-  List<CartModel> keranjang = [];
+  List<CartModel1> keranjang = [];
 
   void updateSubtotal() {
     if (jumlahController.text.isNotEmpty && selectedLevelHarga != null) {
@@ -33,6 +35,32 @@ class _ReturState extends State<Retur> {
       subtotalController.text = formatRupiah(subtotal);
     } else {
       subtotalController.clear();
+    }
+  }
+
+  Future<void> createCartItem(
+      ProductModel product, int jumlah, int harga, int subtotal) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? id = prefs.getInt('id');
+
+    if (id != null) {
+      CartModel1 cartItem = CartModel1(
+        Kategori: product.kategori.nama_kategori,
+        kodeProduk: product.kode_produk,
+        namaProduk: product.nama_produk,
+        jumlah: jumlah,
+        hargaSatuan: harga,
+        subtotal: subtotal,
+        gambar: product.gambar,
+        kode_operator: id, // Mengkonversi id ke String jika perlu
+      );
+
+      setState(() {
+        keranjang.add(cartItem);
+      });
+    } else {
+      print('No user ID found.');
+      // Tangani kasus di mana id tidak ditemukan
     }
   }
 
@@ -125,16 +153,37 @@ class _ReturState extends State<Retur> {
                       children: [
                         Text('Kategori: ${product.kategori.nama_kategori}'),
                         Text('Stock: ${product.stock.toString()}'),
-                        Text(
-                            "Harga: ${formatRupiah(product.harga.first.harga_satuan)}"),
+                        Text("Harga: ${formatRupiah(product.harga.firstWhere(
+                              (level) => level.nama_level == 'Grosir',
+                              orElse: () => LevelHargaModel(
+                                kode_level: '',
+                                kode_produk: '',
+                                nama_level: '',
+                                harga_satuan: 0,
+                              ),
+                            ).harga_satuan)}"),
                       ],
                     ),
                     onTap: () {
+                      final grosirHarga = product.harga.firstWhere(
+                        (level) => level.nama_level == 'Grosir',
+                        orElse: () => LevelHargaModel(
+                          kode_level: '',
+                          kode_produk: '',
+                          nama_level: '',
+                          harga_satuan: 0,
+                        ),
+                      );
+
                       setState(() {
                         selectedLevelHarga = null;
                         hargaController.clear();
                         jumlahController.clear();
                         subtotalController.clear();
+
+                        selectedLevelHarga = grosirHarga;
+                        hargaController.text =
+                            formatRupiah(grosirHarga.harga_satuan);
                       });
                       showDialog(
                         context: context,
@@ -152,87 +201,42 @@ class _ReturState extends State<Retur> {
                             ],
                           ),
                           content: Form(
-                            child: SingleChildScrollView(
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  TextFormField(
-                                    decoration: InputDecoration(
-                                      labelText: 'Product Name',
-                                    ),
-                                    initialValue: product.nama_produk,
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                    ),
-                                    enabled: false, // Non-editable field
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                TextFormField(
+                                  decoration: InputDecoration(
+                                    labelText: 'Product Name',
                                   ),
-                                  DropdownButtonFormField<LevelHargaModel>(
-                                    decoration: InputDecoration(
-                                        labelText: 'Pilih Level Harga'),
-                                    value: selectedLevelHarga,
-                                    items: [
-                                      DropdownMenuItem<LevelHargaModel>(
-                                        value: null,
-                                        child: Text("Pilih harga"),
-                                      ),
-                                      ...product.harga.map((level) {
-                                        return DropdownMenuItem<
-                                            LevelHargaModel>(
-                                          value: level,
-                                          child: Text(level.nama_level),
-                                        );
-                                      }).toList(),
-                                    ],
-                                    onChanged: (LevelHargaModel? newValue) {
-                                      setState(() {
-                                        selectedLevelHarga = newValue;
-                                        if (newValue != null) {
-                                          hargaController.text = formatRupiah(
-                                              newValue.harga_satuan);
-                                          updateSubtotal();
-                                        } else {
-                                          hargaController.clear();
-                                          subtotalController.clear();
-                                        }
-                                      });
-                                    },
+                                  initialValue: product.nama_produk,
+                                  enabled: false, // Non-editable field
+                                ),
+                                TextFormField(
+                                  controller: hargaController,
+                                  decoration:
+                                      InputDecoration(labelText: 'Harga'),
+                                  enabled: false,
+                                ),
+                                TextFormField(
+                                  controller: jumlahController,
+                                  decoration: InputDecoration(
+                                    labelText: 'Jumlah',
                                   ),
-                                  TextFormField(
-                                    controller: hargaController,
-                                    decoration:
-                                        InputDecoration(labelText: 'Harga'),
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                    ),
-                                    enabled: false,
+                                  keyboardType: TextInputType.number,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      updateSubtotal();
+                                    });
+                                  },
+                                ),
+                                TextField(
+                                  controller: subtotalController,
+                                  decoration: InputDecoration(
+                                    labelText: 'Subtotal',
                                   ),
-                                  TextFormField(
-                                    controller: jumlahController,
-                                    decoration: InputDecoration(
-                                      labelText: 'Jumlah',
-                                    ),
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                    ),
-                                    keyboardType: TextInputType.number,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        updateSubtotal();
-                                      });
-                                    },
-                                  ),
-                                  TextField(
-                                    controller: subtotalController,
-                                    decoration: InputDecoration(
-                                      labelText: 'Subtotal',
-                                    ),
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                    ),
-                                    enabled: false,
-                                  ),
-                                ],
-                              ),
+                                  enabled: false,
+                                ),
+                              ],
                             ),
                           ),
                           actions: [
@@ -271,7 +275,7 @@ class _ReturState extends State<Retur> {
                                   return 5;
                                 }),
                               ),
-                              onPressed: () {
+                              onPressed: () async {
                                 if (selectedLevelHarga != null &&
                                     jumlahController.text.isNotEmpty) {
                                   int jumlah = int.parse(jumlahController.text);
@@ -292,19 +296,8 @@ class _ReturState extends State<Retur> {
                                           subtotal;
                                     });
                                   } else {
-                                    // CartModel cartItem = CartModel(
-                                    //     Kategori:
-                                    //         product.kategori.nama_kategori,
-                                    //     kodeProduk: product.kode_produk,
-                                    //     namaProduk: product.nama_produk,
-                                    //     jumlah: jumlah,
-                                    //     hargaSatuan: harga,
-                                    //     subtotal: subtotal,
-                                    //     gambar: product.gambar);
-
-                                    // setState(() {
-                                    //   keranjang.add(cartItem);
-                                    // });
+                                    await createCartItem(
+                                        product, jumlah, harga, subtotal);
                                   }
 
                                   Navigator.of(context).pop();
