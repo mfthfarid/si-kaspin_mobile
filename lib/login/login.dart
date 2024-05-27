@@ -97,138 +97,156 @@ class _LoginPage extends State<LoginPage> {
                   // Container Gambar dan Teks
                   Expanded(
                     flex: 60,
-                    // fit: FlexFit.tight,
                     child: Container(
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            'data/kasir2.jpg',
-                            fit: BoxFit.contain,
-                            width: screenWidth * 0.8,
-                            height: constraints.maxHeight * 0.3,
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Container(
+                          alignment: Alignment.bottomCenter,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'data/kasir2.jpg',
+                                fit: BoxFit.contain,
+                                width: screenWidth * 0.8,
+                                height: constraints.maxHeight * 0.3,
+                              ),
+                              SizedBox(
+                                height: constraints.maxHeight * 0.02,
+                              ),
+                              Text(
+                                "Selamat Datang",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: screenHeight * 0.04,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(
+                                height: constraints.maxHeight *
+                                    0.01, // Ruang antara teks
+                              ),
+                              Text(
+                                "Mari awali hari dengan Bismillah",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: screenHeight * 0.025,
+                                ),
+                              ),
+                            ],
                           ),
-                          SizedBox(
-                            height: constraints.maxHeight * 0.02,
-                          ),
-                          Text(
-                            "Selamat Datang",
-                            style: TextStyle(
-                              fontSize: screenWidth * 0.07,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(
-                            height: constraints.maxHeight *
-                                0.01, // Ruang antara teks
-                          ),
-                          Text(
-                            "Mari awali hari dengan Bismillah",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize:
-                                  screenWidth * 0.045, // Ukuran font responsif
-                            ),
-                          ),
-                          // SizedBox(
-                          //   height: constraints.maxHeight *
-                          //       0.03, // Ruang sebelum container form
-                          // ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
                   // Container Form Login
-                  Expanded(
-                    flex: 40,
-                    child: Container(
-                      alignment: Alignment.topCenter,
-                      child: Container(
-                        width: double.infinity,
-                        height: 220,
-                        padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                        margin:
-                            EdgeInsets.symmetric(horizontal: horizontalPadding),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10.0),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.3),
-                              spreadRadius: 3,
-                              blurRadius: 5,
-                              offset: Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            TextField(
-                              controller: _usernameController,
-                              decoration:
-                                  InputDecoration(labelText: 'Username'),
-                            ),
-                            SizedBox(height: 5),
-                            TextField(
-                              controller: _passwordController,
-                              decoration:
-                                  InputDecoration(labelText: 'Password'),
-                              obscureText: true,
-                            ),
-                            SizedBox(height: 30),
-                            ElevatedButton(
-                              style: ButtonStyle(
-                                fixedSize: MaterialStateProperty.all<Size>(
-                                    Size(50, 30)),
-                                backgroundColor:
-                                    MaterialStateProperty.resolveWith<Color>(
-                                  (Set<MaterialState> states) {
-                                    if (states
-                                        .contains(MaterialState.pressed)) {
-                                      return Color.fromARGB(255, 11, 49, 27);
-                                    }
-                                    return Colors.green;
-                                  },
+                  Stack(
+                    children: [
+                      Container(
+                        // flex: 40,
+                        child: Container(
+                          child: Container(
+                            width: double.infinity,
+                            height: screenHeight * 0.350,
+                            padding: EdgeInsets.symmetric(
+                                vertical: screenHeight * 0.01, horizontal: 20),
+                            // margin: EdgeInsets.symmetric(
+                            //     horizontal: horizontalPadding),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(10.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.3),
+                                  spreadRadius: 3,
+                                  blurRadius: 5,
+                                  offset: Offset(0, 3),
                                 ),
-                                foregroundColor:
-                                    MaterialStateProperty.resolveWith<Color>(
-                                  (Set<MaterialState> states) {
-                                    if (states.contains(MaterialState.pressed))
-                                      return Colors.black;
-                                    return Colors.white; // Warna default
-                                  },
-                                ),
-                              ),
-                              onPressed: () {
-                                fungsiLogin();
-                                // String username = _usernameController.text;
-                                // String password = _passwordController.text;
-
-                                // if (username == 'admin' &&
-                                //     password == 'admin123') {
-                                //   Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //         builder: (context) => Penjualan()),
-                                //   );
-                                // } else {
-                                //   ScaffoldMessenger.of(context).showSnackBar(
-                                //     SnackBar(
-                                //       content:
-                                //           Text('Username atau password salah.'),
-                                //       backgroundColor: Colors.red,
-                                //     ),
-                                //   );
-                                // }
-                              },
-                              child:
-                                  Text('Login', style: TextStyle(fontSize: 23)),
+                              ],
                             ),
-                          ],
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                TextField(
+                                  controller: _usernameController,
+                                  decoration: InputDecoration(
+                                    labelText: 'Username',
+                                    labelStyle: TextStyle(
+                                        fontSize: screenHeight * 0.025),
+                                    contentPadding: EdgeInsets.symmetric(
+                                      vertical: screenHeight * 0.02,
+                                    ),
+                                  ),
+                                  style:
+                                      TextStyle(fontSize: screenHeight * 0.025),
+                                ),
+                                SizedBox(height: screenHeight * 0.008),
+                                TextField(
+                                  controller: _passwordController,
+                                  decoration: InputDecoration(
+                                    labelText: 'Password',
+                                    labelStyle: TextStyle(
+                                        fontSize: screenHeight * 0.025),
+                                    contentPadding: EdgeInsets.symmetric(
+                                      vertical: screenHeight * 0.02,
+                                    ),
+                                  ),
+                                  obscureText: true,
+                                  style:
+                                      TextStyle(fontSize: screenHeight * 0.025),
+                                ),
+                                SizedBox(height: screenHeight * 0.04),
+                                Container(
+                                  width: screenWidth * 0.01,
+                                  height: screenHeight * 0.06,
+                                  child: ElevatedButton(
+                                    style: ButtonStyle(
+                                      padding: MaterialStateProperty.all<
+                                          EdgeInsetsGeometry>(
+                                        EdgeInsets.symmetric(
+                                          vertical: screenHeight * 0.02,
+                                          horizontal: screenWidth * 0.02,
+                                        ),
+                                      ),
+                                      backgroundColor: MaterialStateProperty
+                                          .resolveWith<Color>(
+                                        (Set<MaterialState> states) {
+                                          if (states.contains(
+                                              MaterialState.pressed)) {
+                                            return Color.fromARGB(
+                                                255, 11, 49, 27);
+                                          }
+                                          return Colors.green;
+                                        },
+                                      ),
+                                      foregroundColor: MaterialStateProperty
+                                          .resolveWith<Color>(
+                                        (Set<MaterialState> states) {
+                                          if (states
+                                              .contains(MaterialState.pressed))
+                                            return Colors.black;
+                                          return Colors.white; // Warna default
+                                        },
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      fungsiLogin();
+                                    },
+                                    child: Text(
+                                      'Login',
+                                      style: TextStyle(
+                                        fontSize: screenHeight * 0.03,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
 
                   // SizedBox(

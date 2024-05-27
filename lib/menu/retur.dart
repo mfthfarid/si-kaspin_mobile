@@ -85,6 +85,10 @@ class _ReturState extends State<Retur> {
 
   @override
   Widget build(BuildContext context) {
+    var mediaQueryData = MediaQuery.of(context);
+    var screenHeight = mediaQueryData.size.height;
+    var screenWidth = mediaQueryData.size.width;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -99,12 +103,14 @@ class _ReturState extends State<Retur> {
             icon: Icon(
               Icons.add_shopping_cart_outlined,
               color: Colors.green.shade300,
+              size: 28,
             ),
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => KeranjangRetur(keranjang)),
+                  builder: (context) => KeranjangRetur(keranjang),
+                ),
               );
             },
             tooltip: 'Keranjang Retur',
@@ -235,6 +241,40 @@ class _ReturState extends State<Retur> {
                           ),
                           actions: [
                             TextButton(
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.resolveWith<Color>(
+                                        (Set<MaterialState> states) {
+                                  if (states.contains(MaterialState.pressed)) {
+                                    return Color.fromARGB(255, 11, 49, 27);
+                                  }
+                                  return Colors.green;
+                                }),
+                                padding: MaterialStateProperty.all<
+                                    EdgeInsetsGeometry>(
+                                  EdgeInsets.all(16.0),
+                                ),
+                                shape:
+                                    MaterialStateProperty.all<OutlinedBorder>(
+                                  RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                ),
+                                foregroundColor:
+                                    MaterialStateProperty.resolveWith<Color>(
+                                        (Set<MaterialState> states) {
+                                  if (states.contains(MaterialState.pressed))
+                                    return Colors.black;
+                                  return Colors.white;
+                                }),
+                                elevation:
+                                    MaterialStateProperty.resolveWith<double>(
+                                        (Set<MaterialState> states) {
+                                  if (states.contains(MaterialState.pressed))
+                                    return 100;
+                                  return 5;
+                                }),
+                              ),
                               onPressed: () async {
                                 if (selectedLevelHarga != null &&
                                     jumlahController.text.isNotEmpty) {
@@ -269,7 +309,12 @@ class _ReturState extends State<Retur> {
                                   );
                                 }
                               },
-                              child: Text('Tambah'),
+                              child: Text(
+                                'Tambah',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
                             )
                           ],
                         ),

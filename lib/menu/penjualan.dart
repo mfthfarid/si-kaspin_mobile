@@ -102,6 +102,7 @@ class _PenjualanState extends State<Penjualan> {
             icon: Icon(
               Icons.add_shopping_cart_outlined,
               color: Colors.green.shade300,
+              size: 28,
             ),
             onPressed: () {
               Navigator.push(
@@ -187,78 +188,91 @@ class _PenjualanState extends State<Penjualan> {
                             ],
                           ),
                           content: Form(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                TextFormField(
-                                  decoration: InputDecoration(
-                                    labelText: 'Product Name',
-                                  ),
-                                  initialValue: product.nama_produk,
-                                  enabled: false, // Non-editable field
-                                ),
-                                DropdownButtonFormField<LevelHargaModel>(
-                                  decoration: InputDecoration(
-                                      labelText: 'Pilih Level Harga'),
-                                  value: selectedLevelHarga,
-                                  items: [
-                                    DropdownMenuItem<LevelHargaModel>(
-                                      value: null,
-                                      child: Text("Pilih harga"),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  TextFormField(
+                                    decoration: InputDecoration(
+                                      labelText: 'Product Name',
                                     ),
-                                    ...product.harga.map((level) {
-                                      return DropdownMenuItem<LevelHargaModel>(
-                                        value: level,
-                                        child: Text(level.nama_level),
-                                      );
-                                    }).toList(),
-                                  ],
-                                  onChanged: (LevelHargaModel? newValue) {
-                                    setState(() {
-                                      selectedLevelHarga = newValue;
-                                      if (newValue != null) {
-                                        hargaController.text =
-                                            formatRupiah(newValue.harga_satuan);
+                                    initialValue: product.nama_produk,
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                    enabled: false, // Non-editable field
+                                  ),
+                                  DropdownButtonFormField<LevelHargaModel>(
+                                    decoration: InputDecoration(
+                                        labelText: 'Pilih Level Harga'),
+                                    value: selectedLevelHarga,
+                                    items: [
+                                      DropdownMenuItem<LevelHargaModel>(
+                                        value: null,
+                                        child: Text("Pilih harga"),
+                                      ),
+                                      ...product.harga.map((level) {
+                                        return DropdownMenuItem<
+                                            LevelHargaModel>(
+                                          value: level,
+                                          child: Text(level.nama_level),
+                                        );
+                                      }).toList(),
+                                    ],
+                                    onChanged: (LevelHargaModel? newValue) {
+                                      setState(() {
+                                        selectedLevelHarga = newValue;
+                                        if (newValue != null) {
+                                          hargaController.text = formatRupiah(
+                                              newValue.harga_satuan);
+                                          updateSubtotal();
+                                        } else {
+                                          hargaController.clear();
+                                          subtotalController.clear();
+                                        }
+                                      });
+                                    },
+                                  ),
+                                  TextFormField(
+                                    controller: hargaController,
+                                    decoration: InputDecoration(
+                                      labelText: 'Harga',
+                                    ),
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                    enabled: false,
+                                  ),
+                                  TextFormField(
+                                    controller: jumlahController,
+                                    decoration: InputDecoration(
+                                      labelText: 'Jumlah',
+                                    ),
+                                    keyboardType: TextInputType.number,
+                                    onChanged: (value) {
+                                      setState(() {
                                         updateSubtotal();
-                                      } else {
-                                        hargaController.clear();
-                                        subtotalController.clear();
-                                      }
-                                    });
-                                  },
-                                ),
-                                TextFormField(
-                                  controller: hargaController,
-                                  decoration:
-                                      InputDecoration(labelText: 'Harga'),
-                                  enabled: false,
-                                ),
-                                TextFormField(
-                                  controller: jumlahController,
-                                  decoration: InputDecoration(
-                                    labelText: 'Jumlah',
+                                      });
+                                    },
                                   ),
-                                  keyboardType: TextInputType.number,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      updateSubtotal();
-                                    });
-                                  },
-                                ),
-                                TextField(
-                                  controller: subtotalController,
-                                  decoration: InputDecoration(
-                                    labelText: 'Subtotal',
+                                  TextField(
+                                    controller: subtotalController,
+                                    decoration: InputDecoration(
+                                      labelText: 'Subtotal',
+                                    ),
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                    ),
+                                    enabled: false,
                                   ),
-                                  enabled: false,
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                           actions: [
                             TextButton(
                               style: ButtonStyle(
-                                overlayColor:
+                                backgroundColor:
                                     MaterialStateProperty.resolveWith<Color>(
                                         (Set<MaterialState> states) {
                                   if (states.contains(MaterialState.pressed)) {
@@ -276,6 +290,20 @@ class _PenjualanState extends State<Penjualan> {
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
                                 ),
+                                foregroundColor:
+                                    MaterialStateProperty.resolveWith<Color>(
+                                        (Set<MaterialState> states) {
+                                  if (states.contains(MaterialState.pressed))
+                                    return Colors.black;
+                                  return Colors.white;
+                                }),
+                                elevation:
+                                    MaterialStateProperty.resolveWith<double>(
+                                        (Set<MaterialState> states) {
+                                  if (states.contains(MaterialState.pressed))
+                                    return 100;
+                                  return 5;
+                                }),
                               ),
                               onPressed: () async {
                                 if (selectedLevelHarga != null &&
@@ -317,7 +345,7 @@ class _PenjualanState extends State<Penjualan> {
                                   color: Colors.white,
                                 ),
                               ),
-                            )
+                            ),
                           ],
                         ),
                       );
