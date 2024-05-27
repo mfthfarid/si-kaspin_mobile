@@ -3,11 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:kaspin/models/keranjang_model.dart';
 import 'package:kaspin/models/pelanggan_model.dart';
-import 'package:kaspin/models/produk_model.dart';
 import 'package:kaspin/services/PelangganAPI.dart';
 import 'package:kaspin/services/ProduksAPI.dart';
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:kaspin/menu/penjualan.dart';
 
 class PembayaranJual extends StatefulWidget {
   final int totalHarga;
@@ -126,7 +125,12 @@ class _Pembayaran extends State<PembayaranJual> {
                 TextButton(
                     onPressed: () {
                       Navigator.of(context).pop();
-                      Navigator.of(context).pop(true);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Penjualan(),
+                        ),
+                      );
                     },
                     child: Text('Close')),
               ],

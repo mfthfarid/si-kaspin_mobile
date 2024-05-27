@@ -1,15 +1,11 @@
-// import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:kaspin/drawer.dart';
 import 'package:kaspin/models/keranjang_model.dart';
 import 'package:kaspin/models/levelharga_model.dart';
-import 'package:kaspin/models/user_model.dart';
 import 'package:kaspin/services/ProduksAPI.dart';
 import 'package:kaspin/transaksi/keranjangPenjualan.dart';
 import 'package:kaspin/models/produk_model.dart';
 import 'package:intl/intl.dart';
-import 'package:kaspin/transaksi/keranjangPenjualan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Penjualan extends StatefulWidget {
@@ -155,7 +151,17 @@ class _PenjualanState extends State<Penjualan> {
                         Text('Kategori: ${product.kategori.nama_kategori}'),
                         Text('Stock: ${product.stock.toString()}'),
                         Text(
-                            "Harga: ${formatRupiah(product.harga.first.harga_satuan)}"),
+                          // "Harga: ${formatRupiah(product.harga.first.harga_satuan)}",
+                          "Harga: ${formatRupiah(product.harga.firstWhere(
+                                (level) => level.nama_level == 'Ecer',
+                                orElse: () => LevelHargaModel(
+                                  kode_level: '',
+                                  kode_produk: '',
+                                  nama_level: '',
+                                  harga_satuan: 0,
+                                ),
+                              ).harga_satuan)}",
+                        ),
                       ],
                     ),
                     onTap: () {
