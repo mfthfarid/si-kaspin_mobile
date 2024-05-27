@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:kaspin/models/keranjang1_model.dart';
 import 'package:kaspin/models/keranjang_model.dart';
 import 'package:kaspin/transaksi/pembayaranRetur.dart';
 
 class KeranjangRetur extends StatefulWidget {
-  final List<CartModel> cartItems;
+  final List<CartModel1> cartItems;
   KeranjangRetur(this.cartItems);
 
   @override
@@ -64,7 +65,7 @@ class _KeranjangReturState extends State<KeranjangRetur> {
           scrollDirection: Axis.vertical,
           itemCount: widget.cartItems.length,
           itemBuilder: (context, index) {
-            CartModel KeranjangRetur = widget.cartItems[index];
+            CartModel1 KeranjangRetur = widget.cartItems[index];
             return ListTile(
               leading: Container(
                 width: 80,
@@ -168,7 +169,11 @@ class _KeranjangReturState extends State<KeranjangRetur> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => PembayaranRetur()),
+                    MaterialPageRoute(
+                        builder: (context) => PembayaranRetur(
+                              totalHarga: totalHarga,
+                              data: widget.cartItems,
+                            )),
                   );
                 },
                 child: Text(
