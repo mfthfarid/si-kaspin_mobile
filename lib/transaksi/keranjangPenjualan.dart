@@ -142,74 +142,80 @@ class _KeranjangState extends State<keranjangPenjualan> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Total Harga:',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+              Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Total Harga:',
+                      style: TextStyle(
+                        fontSize: screenWidth * 0.035,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
                     ),
-                  ),
-                  Text(
-                    formatRupiah(totalHarga.toString()),
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.green,
+                    Text(
+                      formatRupiah(totalHarga.toString()),
+                      style: TextStyle(
+                        fontSize: screenWidth * 0.035,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              ElevatedButton(
-                style: ButtonStyle(
-                  padding: MaterialStateProperty.all(
-                      EdgeInsets.symmetric(horizontal: 28, vertical: 18)),
-                  backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.disabled)) {
-                      return Colors.red;
-                    }
-                    if (states.contains(MaterialState.pressed)) {
-                      return Color.fromARGB(255, 11, 49, 27);
-                    }
-                    return Colors.green;
-                  }),
-                  foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.pressed))
-                      return Colors.black;
-                    return Colors.white;
-                  }),
-                  elevation: MaterialStateProperty.resolveWith<double>(
-                      (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.pressed)) return 100;
-                    return 5;
-                  }),
+                  ],
                 ),
-                onPressed: totalHarga > 0
-                    ? () async {
-                        final result = await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => PembayaranJual(
-                                    totalHarga: totalHarga,
-                                    data: widget.cartItems,
-                                  )),
-                        );
-
-                        if (result == true) {
-                          clearCart();
-                        }
+              ),
+              Container(
+                width: screenWidth * 0.4,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    padding: MaterialStateProperty.all(
+                        EdgeInsets.symmetric(horizontal: 28, vertical: 18)),
+                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.disabled)) {
+                        return Colors.red;
                       }
-                    : null,
-                child: Text(
-                  "Lanjutkan",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
+                      if (states.contains(MaterialState.pressed)) {
+                        return Color.fromARGB(255, 11, 49, 27);
+                      }
+                      return Colors.green;
+                    }),
+                    foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.pressed))
+                        return Colors.black;
+                      return Colors.white;
+                    }),
+                    elevation: MaterialStateProperty.resolveWith<double>(
+                        (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.pressed)) return 100;
+                      return 5;
+                    }),
+                  ),
+                  onPressed: totalHarga > 0
+                      ? () async {
+                          final result = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PembayaranJual(
+                                totalHarga: totalHarga,
+                                data: widget.cartItems,
+                              ),
+                            ),
+                          );
+                          if (result == true) {
+                            clearCart();
+                          }
+                        }
+                      : null,
+                  child: Text(
+                    "Lanjutkan",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: screenWidth * 0.04,
+                    ),
                   ),
                 ),
               ),

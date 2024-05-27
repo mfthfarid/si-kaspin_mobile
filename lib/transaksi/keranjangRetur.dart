@@ -127,55 +127,65 @@ class _KeranjangReturState extends State<KeranjangRetur> {
                 children: [
                   Text(
                     'Total Harga:',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.035,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
                   ),
                   Text(
                     formatRupiah(totalHarga.toString()),
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: screenWidth * 0.035,
                       fontWeight: FontWeight.bold,
                       color: Colors.green,
                     ),
                   ),
                 ],
               ),
-              ElevatedButton(
-                style: ButtonStyle(
-                  padding: MaterialStateProperty.all(
-                      EdgeInsets.symmetric(horizontal: 28, vertical: 18)),
-                  backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.disabled)) {
-                      return Colors.red;
-                    }
-                    if (states.contains(MaterialState.pressed)) {
-                      return Color.fromARGB(255, 11, 49, 27);
-                    }
-                    return Colors.green;
-                  }),
-                  foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.pressed))
-                      return Colors.black;
-                    return Colors.white;
-                  }),
-                  elevation: MaterialStateProperty.resolveWith<double>(
-                      (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.pressed)) return 100;
-                    return 5;
-                  }),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => PembayaranRetur()),
-                  );
-                },
-                child: Text(
-                  "Lanjutkan",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
+              Container(
+                width: screenWidth * 0.4,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    padding: MaterialStateProperty.all(
+                        EdgeInsets.symmetric(horizontal: 28, vertical: 18)),
+                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.disabled)) {
+                        return Colors.red;
+                      }
+                      if (states.contains(MaterialState.pressed)) {
+                        return Color.fromARGB(255, 11, 49, 27);
+                      }
+                      return Colors.green;
+                    }),
+                    foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.pressed))
+                        return Colors.black;
+                      return Colors.white;
+                    }),
+                    elevation: MaterialStateProperty.resolveWith<double>(
+                        (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.pressed)) return 100;
+                      return 5;
+                    }),
+                  ),
+                  onPressed: totalHarga > 0
+                      ? () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PembayaranRetur()),
+                          );
+                        }
+                      : null,
+                  child: Text(
+                    "Lanjutkan",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: screenWidth * 0.04,
+                    ),
                   ),
                 ),
               ),

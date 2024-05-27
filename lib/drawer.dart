@@ -99,7 +99,7 @@ class _MyDrawer extends State<MyDrawer> {
                                     style: TextStyle(
                                       fontFamily: "Poppins",
                                       fontWeight: FontWeight.w600,
-                                      color: Colors.white,
+                                      color: Colors.red,
                                     ),
                                   );
                                 } else if (snapshot.hasData &&
@@ -118,7 +118,7 @@ class _MyDrawer extends State<MyDrawer> {
                                     style: TextStyle(
                                       fontFamily: "Poppins",
                                       fontWeight: FontWeight.w600,
-                                      color: Colors.white,
+                                      color: Colors.red,
                                     ),
                                   );
                                 }
@@ -137,7 +137,7 @@ class _MyDrawer extends State<MyDrawer> {
                                     style: TextStyle(
                                       fontFamily: "Poppins",
                                       fontWeight: FontWeight.w600,
-                                      color: Colors.white,
+                                      color: Colors.red,
                                     ),
                                   );
                                 } else if (snapshot.hasData &&
@@ -147,7 +147,7 @@ class _MyDrawer extends State<MyDrawer> {
                                     style: TextStyle(
                                       fontFamily: "Poppins",
                                       fontWeight: FontWeight.w600,
-                                      color: Colors.white,
+                                      color: Colors.amber,
                                     ),
                                   );
                                 } else {
@@ -156,7 +156,7 @@ class _MyDrawer extends State<MyDrawer> {
                                     style: TextStyle(
                                       fontFamily: "Poppins",
                                       fontWeight: FontWeight.w600,
-                                      color: Colors.white,
+                                      color: Colors.red,
                                     ),
                                   );
                                 }
