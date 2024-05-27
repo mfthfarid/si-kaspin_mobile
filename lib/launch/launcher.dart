@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:kaspin/login/login.dart';
-import 'package:kaspin/menu/penjualan.dart';
 import 'constans.dart';
 
 class LaunchPage extends StatefulWidget {
