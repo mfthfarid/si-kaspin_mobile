@@ -9,6 +9,10 @@ class PembayaranRetur extends StatefulWidget {
 class _PembayaranRetur extends State<PembayaranRetur> {
   @override
   Widget build(BuildContext context) {
+    var mediaQueryData = MediaQuery.of(context);
+    var screenHeight = mediaQueryData.size.height;
+    var screenWidth = mediaQueryData.size.width;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -124,63 +128,69 @@ class _PembayaranRetur extends State<PembayaranRetur> {
                 children: [
                   Text(
                     'Total Harga:',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.035,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
                   ),
                   Text(
                     "Harga",
                     // '\$${_totalPrice.toStringAsFixed(2)}',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: screenWidth * 0.035,
                       fontWeight: FontWeight.bold,
                       color: Colors.green,
                     ),
                   ),
                 ],
               ),
-              ElevatedButton(
-                style: ButtonStyle(
-                  // minimumSize: MaterialStateProperty.all(
-                  //     Size(200, 50)),
-                  // textStyle: MaterialStateProperty.all(
-                  //     TextStyle(fontSize: 20)), // Ukuran teks lebih besar
-                  padding: MaterialStateProperty.all(
-                      EdgeInsets.symmetric(horizontal: 20, vertical: 18)),
-                  backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.pressed)) {
-                      return Color.fromARGB(255, 11, 49, 27);
-                    }
-                    return Colors.green;
-                  }),
-                  foregroundColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.pressed))
-                      return Colors.black;
-                    return Colors.white;
-                  }),
-                  elevation: MaterialStateProperty.resolveWith<double>(
-                      (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.pressed)) return 100;
-                    return 5;
-                  }),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Penjualan()),
-                  );
-                },
-                child: Row(
-                  children: [
-                    Icon(Icons.attach_money_rounded),
-                    Text(
-                      "Simpan",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
+              Container(
+                width: screenWidth * 0.4,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    padding: MaterialStateProperty.all(
+                        EdgeInsets.symmetric(horizontal: 28, vertical: 18)),
+                    backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.disabled)) {
+                        return Colors.red;
+                      }
+                      if (states.contains(MaterialState.pressed)) {
+                        return Color.fromARGB(255, 11, 49, 27);
+                      }
+                      return Colors.green;
+                    }),
+                    foregroundColor: MaterialStateProperty.resolveWith<Color>(
+                        (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.pressed))
+                        return Colors.black;
+                      return Colors.white;
+                    }),
+                    elevation: MaterialStateProperty.resolveWith<double>(
+                        (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.pressed)) return 100;
+                      return 5;
+                    }),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Penjualan()),
+                    );
+                  },
+                  child: Row(
+                    children: [
+                      Icon(Icons.attach_money_rounded),
+                      Text(
+                        "Simpan",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: screenWidth * 0.04,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
