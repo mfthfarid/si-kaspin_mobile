@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kaspin/models/keranjang_model.dart';
+import 'package:kaspin/services/ApiConfig.dart';
 import 'package:kaspin/transaksi/pembayaranJual.dart';
 
 class keranjangPenjualan extends StatefulWidget {
@@ -93,6 +94,10 @@ class _KeranjangState extends State<keranjangPenjualan> {
                 decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(8),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(ApiConfig.image + keranjang.gambar),
+                  ),
                 ),
               ),
               title: Text(

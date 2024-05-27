@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kaspin/models/keranjang1_model.dart';
 import 'package:kaspin/models/keranjang_model.dart';
+import 'package:kaspin/services/ApiConfig.dart';
 import 'package:kaspin/transaksi/pembayaranRetur.dart';
 
 class KeranjangRetur extends StatefulWidget {
@@ -73,6 +74,11 @@ class _KeranjangReturState extends State<KeranjangRetur> {
                 decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.circular(8),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image:
+                        NetworkImage(ApiConfig.image + KeranjangRetur.gambar),
+                  ),
                 ),
               ),
               title: Text(
