@@ -3,6 +3,7 @@ import 'package:kaspin/drawer.dart';
 import 'package:kaspin/models/keranjang1_model.dart';
 import 'package:kaspin/models/keranjang_model.dart';
 import 'package:kaspin/models/levelharga_model.dart';
+import 'package:kaspin/services/ApiConfig.dart';
 import 'package:kaspin/services/ProduksAPI.dart';
 import 'package:kaspin/transaksi/keranjangRetur.dart';
 import 'package:kaspin/models/produk_model.dart';
@@ -143,7 +144,7 @@ class _ReturState extends State<Retur> {
                         borderRadius: BorderRadius.circular(8),
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: NetworkImage(product.gambar),
+                          image: NetworkImage(ApiConfig.image + product.gambar),
                         ),
                       ),
                     ),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kaspin/drawer.dart';
 import 'package:kaspin/models/keranjang_model.dart';
 import 'package:kaspin/models/levelharga_model.dart';
+import 'package:kaspin/services/ApiConfig.dart';
 import 'package:kaspin/services/ProduksAPI.dart';
 import 'package:kaspin/transaksi/keranjangPenjualan.dart';
 import 'package:kaspin/models/produk_model.dart';
@@ -141,7 +142,7 @@ class _PenjualanState extends State<Penjualan> {
                         borderRadius: BorderRadius.circular(8),
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: NetworkImage(product.gambar),
+                          image: NetworkImage(ApiConfig.image + product.gambar),
                         ),
                       ),
                     ),
