@@ -121,8 +121,13 @@ class _Pembayaran extends State<PembayaranJual> {
             return AlertDialog(
               title: Text("Transaksi Berhasil"),
               content: Text("Data berhasil disimpan"),
+              backgroundColor: Colors.green,
               actions: [
                 TextButton(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.white),
+                    ),
                     onPressed: () {
                       Navigator.of(context).pop();
                       Navigator.pushReplacement(
@@ -347,7 +352,7 @@ class _Pembayaran extends State<PembayaranJual> {
                   Text(
                     'Total Harga:',
                     style: TextStyle(
-                      fontSize: screenWidth * 0.035,
+                      fontSize: screenWidth * 0.04,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
@@ -355,7 +360,7 @@ class _Pembayaran extends State<PembayaranJual> {
                   Text(
                     formatRupiah(widget.totalHarga),
                     style: TextStyle(
-                      fontSize: screenWidth * 0.035,
+                      fontSize: screenWidth * 0.04,
                       fontWeight: FontWeight.bold,
                       color: Colors.green,
                     ),
@@ -404,11 +409,17 @@ class _Pembayaran extends State<PembayaranJual> {
                         builder: (BuildContext context) {
                           return AlertDialog(
                             title: Text("Peringatan"),
+                            backgroundColor: Colors.amber,
                             content:
                                 Text("Harap pilih pelanggan terlebih dahulu."),
                             actions: [
                               TextButton(
                                 child: Text("OK"),
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.white),
+                                ),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },

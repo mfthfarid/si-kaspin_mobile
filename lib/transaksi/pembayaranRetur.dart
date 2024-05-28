@@ -115,10 +115,15 @@ class _PembayaranRetur extends State<PembayaranRetur> {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
+              backgroundColor: Colors.green,
               title: Text("Transaksi Berhasil"),
               content: Text("Data berhasil disimpan"),
               actions: [
                 TextButton(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.white),
+                    ),
                     onPressed: () {
                       Navigator.of(context).pop();
                       Navigator.pushReplacement(
@@ -224,7 +229,7 @@ class _PembayaranRetur extends State<PembayaranRetur> {
                 SizedBox(height: 8.0),
                 Container(
                   width: double.infinity,
-                  height: 50.0,
+                  height: 60.0,
                   child: DropdownButtonFormField<PelangganModel>(
                     value: selectedPelanggan,
                     items: pelangganList.map((PelangganModel pelanggan) {
@@ -255,12 +260,10 @@ class _PembayaranRetur extends State<PembayaranRetur> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(
-                    height:
-                        8.0), // Add some space between the label and the field
+                SizedBox(height: 8.0),
                 Container(
-                  width: double.infinity, // You can set a specific width here
-                  height: 50.0, // Set the desired height
+                  width: double.infinity,
+                  height: 50.0,
                   padding: EdgeInsets.symmetric(horizontal: 12.0),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
@@ -412,11 +415,17 @@ class _PembayaranRetur extends State<PembayaranRetur> {
                         builder: (BuildContext context) {
                           return AlertDialog(
                             title: Text("Peringatan"),
+                            backgroundColor: Colors.amber,
                             content:
                                 Text("Harap pilih pelanggan terlebih dahulu."),
                             actions: [
                               TextButton(
                                 child: Text("OK"),
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.white),
+                                ),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },

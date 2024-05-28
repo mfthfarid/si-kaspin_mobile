@@ -309,6 +309,17 @@ class _PenjualanState extends State<Penjualan> {
                               onPressed: () async {
                                 if (selectedLevelHarga != null &&
                                     jumlahController.text.isNotEmpty) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                          'Berhasil Menambahkan ke Keranjang'),
+                                      backgroundColor: Colors.green,
+                                      behavior: SnackBarBehavior.floating,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                  );
                                   int jumlah = int.parse(jumlahController.text);
                                   int harga = int.parse(selectedLevelHarga!
                                       .harga_satuan
@@ -335,8 +346,13 @@ class _PenjualanState extends State<Penjualan> {
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                        content:
-                                            Text('Harap isi seluruh data')),
+                                      content: Text('Harap isi seluruh data'),
+                                      backgroundColor: Colors.red,
+                                      behavior: SnackBarBehavior.floating,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
                                   );
                                 }
                               },
