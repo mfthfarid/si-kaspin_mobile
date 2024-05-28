@@ -335,9 +335,10 @@ class _PembayaranRetur extends State<PembayaranRetur> {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        height: 80,
+        height: 100,
         color: Color.fromARGB(255, 194, 194, 194),
         child: Container(
+          alignment: Alignment.center,
           padding: const EdgeInsets.all(5.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -427,6 +428,7 @@ class _PembayaranRetur extends State<PembayaranRetur> {
                     }
                   },
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(Icons.attach_money_rounded),
                       Text(

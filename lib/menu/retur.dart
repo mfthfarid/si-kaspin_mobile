@@ -210,12 +210,18 @@ class _ReturState extends State<Retur> {
                                     labelText: 'Product Name',
                                   ),
                                   initialValue: product.nama_produk,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                  ),
                                   enabled: false, // Non-editable field
                                 ),
                                 TextFormField(
                                   controller: hargaController,
                                   decoration:
                                       InputDecoration(labelText: 'Harga'),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                  ),
                                   enabled: false,
                                 ),
                                 TextFormField(
@@ -224,6 +230,9 @@ class _ReturState extends State<Retur> {
                                     labelText: 'Jumlah',
                                   ),
                                   keyboardType: TextInputType.number,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                  ),
                                   onChanged: (value) {
                                     setState(() {
                                       updateSubtotal();
@@ -234,6 +243,9 @@ class _ReturState extends State<Retur> {
                                   controller: subtotalController,
                                   decoration: InputDecoration(
                                     labelText: 'Subtotal',
+                                  ),
+                                  style: TextStyle(
+                                    color: Colors.black,
                                   ),
                                   enabled: false,
                                 ),

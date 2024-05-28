@@ -227,7 +227,7 @@ class _Pembayaran extends State<PembayaranJual> {
                 SizedBox(height: 8.0),
                 Container(
                   width: double.infinity,
-                  height: 50.0,
+                  height: 70.0,
                   child: DropdownButtonFormField<PelangganModel>(
                     value: selectedPelanggan,
                     items: pelangganList.map((PelangganModel pelanggan) {
@@ -332,9 +332,10 @@ class _Pembayaran extends State<PembayaranJual> {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        height: 80,
+        height: 100,
         color: Color.fromARGB(255, 194, 194, 194),
         child: Container(
+          alignment: Alignment.center,
           padding: const EdgeInsets.all(5.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -419,6 +420,7 @@ class _Pembayaran extends State<PembayaranJual> {
                     }
                   },
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(Icons.attach_money_rounded),
                       Text(

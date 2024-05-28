@@ -96,7 +96,7 @@ class _LoginPage extends State<LoginPage> {
                 children: [
                   // Container Gambar dan Teks
                   Expanded(
-                    flex: 60,
+                    flex: 50,
                     child: Container(
                       alignment: Alignment.center,
                       child: Padding(
@@ -205,8 +205,8 @@ class _LoginPage extends State<LoginPage> {
                                       padding: MaterialStateProperty.all<
                                           EdgeInsetsGeometry>(
                                         EdgeInsets.symmetric(
-                                          vertical: screenHeight * 0.02,
-                                          horizontal: screenWidth * 0.02,
+                                          vertical: screenHeight * 0.01,
+                                          horizontal: screenWidth * 0.01,
                                         ),
                                       ),
                                       backgroundColor: MaterialStateProperty

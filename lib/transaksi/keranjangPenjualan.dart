@@ -139,7 +139,7 @@ class _KeranjangState extends State<keranjangPenjualan> {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        height: 80,
+        height: 100,
         color: Color.fromARGB(255, 194, 194, 194),
         child: Container(
           padding: const EdgeInsets.all(5.0),
