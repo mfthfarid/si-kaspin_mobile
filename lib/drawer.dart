@@ -230,6 +230,16 @@ class _MyDrawer extends State<MyDrawer> {
                   title: Text("Log Out"),
                   textColor: Color.fromARGB(255, 56, 157, 66),
                   onTap: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Logout Berhasil'),
+                        backgroundColor: Colors.red,
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    );
                     // _onItemTapped(3);
                     Navigator.pushReplacement(
                       context,

@@ -210,12 +210,18 @@ class _ReturState extends State<Retur> {
                                     labelText: 'Product Name',
                                   ),
                                   initialValue: product.nama_produk,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                  ),
                                   enabled: false, // Non-editable field
                                 ),
                                 TextFormField(
                                   controller: hargaController,
                                   decoration:
                                       InputDecoration(labelText: 'Harga'),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                  ),
                                   enabled: false,
                                 ),
                                 TextFormField(
@@ -224,6 +230,9 @@ class _ReturState extends State<Retur> {
                                     labelText: 'Jumlah',
                                   ),
                                   keyboardType: TextInputType.number,
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                  ),
                                   onChanged: (value) {
                                     setState(() {
                                       updateSubtotal();
@@ -234,6 +243,9 @@ class _ReturState extends State<Retur> {
                                   controller: subtotalController,
                                   decoration: InputDecoration(
                                     labelText: 'Subtotal',
+                                  ),
+                                  style: TextStyle(
+                                    color: Colors.black,
                                   ),
                                   enabled: false,
                                 ),
@@ -279,6 +291,17 @@ class _ReturState extends State<Retur> {
                               onPressed: () async {
                                 if (selectedLevelHarga != null &&
                                     jumlahController.text.isNotEmpty) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                          'Berhasil Menambahkan ke Keranjang'),
+                                      backgroundColor: Colors.green,
+                                      behavior: SnackBarBehavior.floating,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
+                                  );
                                   int jumlah = int.parse(jumlahController.text);
                                   int harga = int.parse(selectedLevelHarga!
                                       .harga_satuan
@@ -305,8 +328,13 @@ class _ReturState extends State<Retur> {
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                        content:
-                                            Text('Harap isi seluruh data')),
+                                      content: Text('Harap isi seluruh data'),
+                                      backgroundColor: Colors.red,
+                                      behavior: SnackBarBehavior.floating,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                    ),
                                   );
                                 }
                               },

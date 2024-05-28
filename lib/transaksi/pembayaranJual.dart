@@ -121,8 +121,13 @@ class _Pembayaran extends State<PembayaranJual> {
             return AlertDialog(
               title: Text("Transaksi Berhasil"),
               content: Text("Data berhasil disimpan"),
+              backgroundColor: Colors.green,
               actions: [
                 TextButton(
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.white),
+                    ),
                     onPressed: () {
                       Navigator.of(context).pop();
                       Navigator.pushReplacement(
@@ -227,7 +232,7 @@ class _Pembayaran extends State<PembayaranJual> {
                 SizedBox(height: 8.0),
                 Container(
                   width: double.infinity,
-                  height: 50.0,
+                  height: 70.0,
                   child: DropdownButtonFormField<PelangganModel>(
                     value: selectedPelanggan,
                     items: pelangganList.map((PelangganModel pelanggan) {
@@ -332,9 +337,10 @@ class _Pembayaran extends State<PembayaranJual> {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        height: 80,
+        height: 100,
         color: Color.fromARGB(255, 194, 194, 194),
         child: Container(
+          alignment: Alignment.center,
           padding: const EdgeInsets.all(5.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -346,7 +352,7 @@ class _Pembayaran extends State<PembayaranJual> {
                   Text(
                     'Total Harga:',
                     style: TextStyle(
-                      fontSize: screenWidth * 0.035,
+                      fontSize: screenWidth * 0.04,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
@@ -354,7 +360,7 @@ class _Pembayaran extends State<PembayaranJual> {
                   Text(
                     formatRupiah(widget.totalHarga),
                     style: TextStyle(
-                      fontSize: screenWidth * 0.035,
+                      fontSize: screenWidth * 0.04,
                       fontWeight: FontWeight.bold,
                       color: Colors.green,
                     ),
@@ -403,11 +409,17 @@ class _Pembayaran extends State<PembayaranJual> {
                         builder: (BuildContext context) {
                           return AlertDialog(
                             title: Text("Peringatan"),
+                            backgroundColor: Colors.amber,
                             content:
                                 Text("Harap pilih pelanggan terlebih dahulu."),
                             actions: [
                               TextButton(
                                 child: Text("OK"),
+                                style: ButtonStyle(
+                                  backgroundColor:
+                                      MaterialStateProperty.all<Color>(
+                                          Colors.white),
+                                ),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
@@ -419,6 +431,7 @@ class _Pembayaran extends State<PembayaranJual> {
                     }
                   },
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(Icons.attach_money_rounded),
                       Text(

@@ -139,7 +139,7 @@ class _KeranjangState extends State<keranjangPenjualan> {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        height: 80,
+        height: 100,
         color: Color.fromARGB(255, 194, 194, 194),
         child: Container(
           padding: const EdgeInsets.all(5.0),
@@ -155,7 +155,7 @@ class _KeranjangState extends State<keranjangPenjualan> {
                     Text(
                       'Total Harga:',
                       style: TextStyle(
-                        fontSize: screenWidth * 0.035,
+                        fontSize: screenWidth * 0.04,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
@@ -163,7 +163,7 @@ class _KeranjangState extends State<keranjangPenjualan> {
                     Text(
                       formatRupiah(totalHarga.toString()),
                       style: TextStyle(
-                        fontSize: screenWidth * 0.035,
+                        fontSize: screenWidth * 0.04,
                         fontWeight: FontWeight.bold,
                         color: Colors.green,
                       ),
@@ -219,7 +219,7 @@ class _KeranjangState extends State<keranjangPenjualan> {
                     "Lanjutkan",
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: screenWidth * 0.04,
+                      fontSize: screenWidth * 0.045,
                     ),
                   ),
                 ),

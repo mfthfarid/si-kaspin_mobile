@@ -120,7 +120,7 @@ class _KeranjangReturState extends State<KeranjangRetur> {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        height: 80,
+        height: 100,
         color: Color.fromARGB(255, 194, 194, 194),
         child: Container(
           alignment: Alignment.center,
@@ -135,7 +135,7 @@ class _KeranjangReturState extends State<KeranjangRetur> {
                   Text(
                     'Total Harga:',
                     style: TextStyle(
-                      fontSize: screenWidth * 0.035,
+                      fontSize: screenWidth * 0.04,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
@@ -143,7 +143,7 @@ class _KeranjangReturState extends State<KeranjangRetur> {
                   Text(
                     formatRupiah(totalHarga.toString()),
                     style: TextStyle(
-                      fontSize: screenWidth * 0.035,
+                      fontSize: screenWidth * 0.04,
                       fontWeight: FontWeight.bold,
                       color: Colors.green,
                     ),
@@ -194,7 +194,7 @@ class _KeranjangReturState extends State<KeranjangRetur> {
                     "Lanjutkan",
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: screenWidth * 0.04,
+                      fontSize: screenWidth * 0.045,
                     ),
                   ),
                 ),
