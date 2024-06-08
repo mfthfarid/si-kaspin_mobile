@@ -27,12 +27,21 @@ class _PenjualanState extends State<Penjualan> {
   LevelHargaModel? selectedLevelHarga;
   List<CartModel> keranjang = [];
 
-  void updateSubtotal() {
+  void updateSubtotal(stock) {
     if (jumlahController.text.isNotEmpty && selectedLevelHarga != null) {
-      int jumlah = int.parse(jumlahController.text);
-      int harga = selectedLevelHarga!.harga_satuan;
-      int subtotal = jumlah * harga;
-      subtotalController.text = formatRupiah(subtotal);
+      if (int.parse(jumlahController.text) > stock) {
+        showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  title: Text("Stok Tidak Cukup"),
+                ));
+        subtotalController.clear();
+      } else {
+        int jumlah = int.parse(jumlahController.text);
+        int harga = selectedLevelHarga!.harga_satuan;
+        int subtotal = jumlah * harga;
+        subtotalController.text = formatRupiah(subtotal);
+      }
     } else {
       subtotalController.clear();
     }
@@ -226,7 +235,7 @@ class _PenjualanState extends State<Penjualan> {
                                         if (newValue != null) {
                                           hargaController.text = formatRupiah(
                                               newValue.harga_satuan);
-                                          updateSubtotal();
+                                          updateSubtotal(product.stock);
                                         } else {
                                           hargaController.clear();
                                           subtotalController.clear();
@@ -252,7 +261,7 @@ class _PenjualanState extends State<Penjualan> {
                                     keyboardType: TextInputType.number,
                                     onChanged: (value) {
                                       setState(() {
-                                        updateSubtotal();
+                                        updateSubtotal(product.stock);
                                       });
                                     },
                                   ),
