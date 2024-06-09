@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kaspin/menu/addPelanggan.dart';
+import 'package:kaspin/menu/dataPelanggan.dart';
 import 'package:kaspin/menu/penjualan.dart';
 import 'package:kaspin/menu/retur.dart';
 import 'package:kaspin/login/login.dart';
@@ -219,25 +220,65 @@ class _MyDrawer extends State<MyDrawer> {
                 );
               },
             ),
-            ListTile(
-              selected: selectedIndex == 3,
+            ExpansionTile(
+              // selected: selectedIndex == 3,
               leading: Icon(
                 Icons.supervisor_account_rounded,
                 color: Colors.white,
               ),
-              title: Text("Daftar Pelanggan"),
-              textColor: Color.fromARGB(255, 56, 157, 66),
-              onTap: () {
-                // _onItemTapped(2);
-                setState(() {
-                  selectedIndex = 3;
-                });
-                // Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => AddPelanggan()),
-                );
-              },
+              title: Text(
+                "Pelanggan",
+                style: TextStyle(
+                  color: Color.fromARGB(255, 56, 157, 66),
+                ),
+              ),
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.add,
+                      color: Colors.white,
+                    ),
+                    title: Text(
+                      "Tambah Pelanggan",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 56, 157, 66),
+                      ),
+                    ),
+                    textColor: Color.fromARGB(255, 56, 157, 66),
+                    onTap: () {
+                      // _onItemTapped(2);
+                      setState(() {
+                        selectedIndex = 3;
+                      });
+                      // Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AddPelanggan()),
+                      );
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 20.0),
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.list,
+                      color: Colors.white,
+                    ),
+                    title: Text("Data Pelanggan"),
+                    textColor: Color.fromARGB(255, 56, 157, 66),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DataPelanggan()),
+                      );
+                    },
+                  ),
+                ),
+              ],
             ),
             Expanded(
               child: Align(
