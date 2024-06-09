@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kaspin/launch/launcher.dart';
+import 'package:kaspin/menu/addPelanggan.dart';
+import 'package:kaspin/menu/dataPelanggan.dart';
 import 'package:kaspin/menu/penjualan.dart';
 
 void main() {
@@ -36,7 +38,7 @@ class _MyHomePageState extends State {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: (LaunchPage()),
+      body: (DataPelanggan()),
     );
   }
 }
