@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kaspin/menu/addPelanggan.dart';
 import 'package:kaspin/menu/penjualan.dart';
 import 'package:kaspin/menu/retur.dart';
 import 'package:kaspin/login/login.dart';
@@ -152,7 +153,7 @@ class _MyDrawer extends State<MyDrawer> {
                                   );
                                 } else {
                                   return Text(
-                                    "Nama tidak ditemukan",
+                                    "Role tidak ditemukan",
                                     style: TextStyle(
                                       fontFamily: "Poppins",
                                       fontWeight: FontWeight.w600,
@@ -215,6 +216,26 @@ class _MyDrawer extends State<MyDrawer> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => Retur()),
+                );
+              },
+            ),
+            ListTile(
+              selected: selectedIndex == 3,
+              leading: Icon(
+                Icons.supervisor_account_rounded,
+                color: Colors.white,
+              ),
+              title: Text("Daftar Pelanggan"),
+              textColor: Color.fromARGB(255, 56, 157, 66),
+              onTap: () {
+                // _onItemTapped(2);
+                setState(() {
+                  selectedIndex = 3;
+                });
+                // Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AddPelanggan()),
                 );
               },
             ),
